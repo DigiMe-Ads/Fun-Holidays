@@ -1,19 +1,27 @@
 import PageHero from "../common/PageHero";
+import ActivitiesGrid from "../destination/ActivitiesGrid";
+import FullWidthImage from "../common/FullWidthImage";
+import CommonCallToAction from "../common/CommonCallToAction";
 
-const AboutUs = () => {
+const DestinationPage = () => {
   return (
     <>
       <PageHero
-        title="About Us"
-        image="/images/about/hero.jpg"
+        title="Fun Things To Do"
+        image="/images/destination/hero.jpg"
         breadcrumbs={[
           { label: "Home", href: "/" },
-          { label: "About Us" },
+          { label: "Fun Things To Do" },
         ]}
       />
-      {/* rest of page content */}
+      <ActivitiesGrid />
+      <FullWidthImage
+        image="/images/destination/fishermen.png"
+        alt="Stilt fishermen at sunset, Sri Lanka"
+      />
+        <CommonCallToAction />
     </>
   );
 };
 
-export default AboutUs;
+export default DestinationPage;
