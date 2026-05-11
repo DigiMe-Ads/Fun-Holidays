@@ -3,7 +3,7 @@ import TopBar from "./common/TopBar";
 import Navbar from "./common/Navbar";
 import HomePage from "./pages/HomePage";
 import DestinationPage from "./pages/DestinationPage";
-import DestinationDetailPage from "./Pages/DestinationDetailPage";
+import DestinationDetailPage from "./pages/DestinationDetailPage";
 import ToursPage from "./pages/ToursPage";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
