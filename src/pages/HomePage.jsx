@@ -6,6 +6,8 @@ import AboutDetails from "../Home/AboutDetails";
 import TravelExperience from "../Home/TravelExperience";
 import DestinationsRow from "../Home/DestinationsRow";
 import Testimonials from "../Home/Testimonials";
+import BlogSection from "../Home/BlogSection";
+import CallToAction from "../Home/CallToAction";
 
 const HomePage = () => {
   return (
@@ -19,6 +21,8 @@ const HomePage = () => {
         <TravelExperience/>
         <DestinationsRow/>
         <Testimonials/>
+        <BlogSection/>
+        <CallToAction/>
       </div>
     </main>
   );
