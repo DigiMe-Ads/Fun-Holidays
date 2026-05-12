@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toSlug } from "../Pages/DestinationDetailPage";
+import { toSlug } from "../pages/DestinationDetailPage";
 import useScrollReveal from "../hooks/useScrollReveal";
 
 const slides = [
