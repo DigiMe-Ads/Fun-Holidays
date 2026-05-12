@@ -8,13 +8,16 @@ import ToursPage from "./pages/ToursPage";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
 import  Footer from "./common/Footer";
-
+import ScrollToTop from "./ui/ScrollToTop";
+import TourDetailPage from "./pages/TourDetailPage";
+import BlogPage from "./pages/BlogPage";
 
 
 
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <TopBar />
       <Navbar />
       <Routes>
@@ -24,6 +27,8 @@ function App() {
         <Route path="/tours" element={<ToursPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/tours/:slug" element={<TourDetailPage />} />
+        <Route path="/blogs" element={<BlogPage />} />
       </Routes>
       <Footer />
     </BrowserRouter>

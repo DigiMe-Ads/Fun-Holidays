@@ -9,66 +9,66 @@ const slides = [
     activities: [
       {
         id: 1,
-        title: "Climb Sigiriya",
-        image: "/images/destination/sigiriya-aerial.jpg",
+        title: "The Kandy Perahera",
+        image: "/images/destination/kandy-perehara.webp",
         description:
-          "Discover King Kassapa's hideaway, perched on a rock among a lush forest. The 2 hr climb up the magnificent Sigiriya Rock Fortress leaves you breathless with its scenic views, explaining why the King picked this location to build his kingdom.",
+          "One of the most extraordinary spectacles in all of Asia — a living, breathing festival performed without interruption for over 400 years. Fire dancers spin flaming torches, whip dancers crack echoes across the hillsides, and the magnificent Maligawa Tusker carries the Sacred Tooth Relic through thousands of lights. The Perahera cannot be missed.",
       },
       {
         id: 2,
-        title: "Adam's Peak",
-        image: "/images/destination/sigiriya-aerial2.jpg",
+        title: "Nature Trails & Trekking",
+        image: "/images/destination/nature-trail.jpg",
         description:
-          "Sri Lanka's most sacred mountain, Adam's Peak is a challenging and rewarding climb best done before dawn to witness the breathtaking sunrise over the misty hills.",
+          "From the sheer 900-metre escarpment of World's End at Horton Plains to the pre-dawn pilgrimage up Adam's Peak, Sri Lanka's landscapes were made for exploration on foot. The Knuckles Range, Sinharaja rainforest, and Ella's tea country trails each offer a completely different and unforgettable trekking experience.",
       },
       {
         id: 3,
         title: "Witness Dolphins & Whales",
         image: "/images/destination/dolphins.jpg",
         description:
-          "Head out to the deep blue waters off Mirissa or Trincomalee for an unforgettable encounter with spinner dolphins and majestic blue whales in their natural habitat.",
+          "The waters off Mirissa and Dondra Point are among the world's most reliable locations for blue whale encounters — the largest creatures ever to have lived on Earth. Spinner dolphins, sperm whales, and humpbacks are also regularly seen. An early morning boat tour into the Indian Ocean creates moments of pure, breathtaking awe.",
       },
       {
         id: 4,
-        title: "Into the Wild",
+        title: "Into the Wild — Safaris",
         image: "/images/destination/leopard-tree.jpg",
         description:
-          "Yala National Park is home to the world's highest density of leopards. Spot these elusive big cats lounging in trees or stalking prey through the dry scrub jungle.",
+          "Yala National Park holds the world's highest density of wild leopards. Your jeep slows — a female leopard regards you from 15 metres with magnificent calm. Elephants cross the road. A sloth bear shuffles through the undergrowth. Beyond Yala, Udawalawe offers reliable elephant herds and Wilpattu provides a wilder, more remote safari experience.",
       },
       {
         id: 5,
-        title: "Sun and Fun",
+        title: "Sun & Beach Holidays",
         image: "/images/destination/sunset-beach.jpg",
         description:
-          "Sri Lanka's southern and eastern coastlines offer pristine golden beaches, turquoise waters, and epic sunsets — perfect for unwinding after days of adventure.",
+          "Over 1,300 kilometres of stunning coastline — Sri Lanka's beaches rival Bali and Phuket and are far less crowded. The south and west coasts shine from November to April; the pristine east coast comes alive from May to September. From Hikkaduwa's coral reef to Passikudah's translucent lagoon, outstanding beach conditions await year-round.",
       },
       {
         id: 6,
-        title: "Witness the Elephant Gathering",
+        title: "The Elephant Gathering",
         image: "/images/destination/elephants-gather.jpg",
         description:
-          "Minneriya National Park hosts the world's largest wild elephant gathering every year. Hundreds of elephants congregate around the ancient reservoir in a truly awe-inspiring spectacle.",
+          "Every year between May and September, over 300 wild elephants converge on Minneriya National Park — the largest congregation of wild Asian elephants on Earth. Giant bulls compete at the water's edge. Calves splash in the shallows. Comparable in drama to the Serengeti migration, yet almost entirely unknown outside Sri Lanka.",
       },
       {
         id: 7,
         title: "Surfing the Coast",
         image: "/images/destination/surfing.jpg",
         description:
-          "Arugam Bay on Sri Lanka's east coast is one of Asia's top surf destinations. Whether you're a beginner or a pro, the consistent waves and laid-back vibe make it unmissable.",
+          "Arugam Bay is globally celebrated as one of Asia's finest surf destinations. Long, consistent right-handers suit every level from first-timers to seasoned pros. The laid-back fishing village atmosphere, warm Indian Ocean waters, and reliable May–September season keep travellers returning year after year.",
       },
       {
         id: 8,
         title: "Whitewater Rafting",
         image: "/images/destination/rafting.jpg",
         description:
-          "The Kelani River near Kitulgala offers thrilling grade 3–4 rapids through lush rainforest. It's an adrenaline-pumping experience set against Sri Lanka's most beautiful scenery.",
+          "Kitulgala is Sri Lanka's adventure capital. The Kelani River delivers thrilling grade 3–4 rapids — School Master, Killer Falls, The Destroyer — weaving through dense tropical rainforest. Also the filming location of the Academy Award-winning 'The Bridge on the River Kwai'. Adrenaline meets extraordinary history.",
       },
       {
         id: 9,
         title: "Bird Watching",
         image: "/images/destination/peacock.png",
         description:
-          "Sri Lanka is a birder's paradise with over 230 endemic and migratory species. From vibrant peacocks to the rare Sri Lanka blue magpie, the island's national parks teem with colour and song.",
+          "Sri Lanka is a world-class birding destination with over 230 species including 33 endemics found nowhere else on Earth. Sinharaja Forest Reserve, Horton Plains, and Bundala wetlands each harbour remarkable birdlife — from the elusive Serendib scops owl to vast flocks of painted storks rising at dawn over ancient lagoons.",
       },
     ],
   },

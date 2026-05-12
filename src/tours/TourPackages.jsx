@@ -10,7 +10,7 @@ const tours = [
     duration: "4 Nights / 5 Days",
     image: "/images/tours/golden-beach.jpg",
     description:
-      "Explore Sri Lanka's golden soft sand beaches from coast to coast with the Golden Beach Package Tour. The first beach destination is Negombo just a 10-minute drive from the airport, taking you to your first golden beach as soon as you arrive.",
+      "Escape to Sri Lanka's finest beaches on this perfectly crafted 5-day coastal holiday. From the fishing village of Negombo — just 10 minutes from Colombo airport — to the golden south coast beaches below the UNESCO-listed city of Galle. Includes a canal boat ride, turtle hatchery visit, cookery class, and tours of Colombo and Galle.",
     slug: "golden-beach-tour",
   },
   {
@@ -19,7 +19,7 @@ const tours = [
     duration: "6 Nights / 7 Days",
     image: "/images/tours/best-sri-lanka.jpg",
     description:
-      "From the ancient kingdom of Anuradhapura to one of the world's only elephant orphanages, we make sure you experience the best of Sri Lanka within 7 days. Relax and enjoy this classical tour as we take you through the wonders of our laughing island.",
+      "The definitive 7-day Sri Lanka holiday — our most popular tour package. From the ancient kingdoms of Anuradhapura and the cave temples of Dambulla to Sigiriya Rock Fortress, the tea plantations of Nuwara Eliya, and a thrilling afternoon jeep safari in Yala National Park.",
     slug: "best-of-sri-lanka-tour",
   },
   {
@@ -28,7 +28,7 @@ const tours = [
     duration: "6 Nights / 7 Days",
     image: "/images/tours/amazing-sri-lanka.jpg",
     description:
-      "Since the end of a 26-year civil war, Sri Lanka's hidden treasures in the East of the island have travelled from around the world. From getting close views of whales and dolphins to bathing in hot spring custom local hot water springs, be ready to be truly amazed.",
+      "Venture beyond the well-trodden path and discover Sri Lanka's most extraordinary hidden treasures. The east coast — opened to tourism after a 30-year civil war — offers whale watching in Trincomalee, meeting the Veddas indigenous people, and Passikudah's pristine beaches.",
     slug: "amazing-sri-lanka-tour",
   },
   {
@@ -37,7 +37,7 @@ const tours = [
     duration: "7 Nights / 8 Days",
     image: "/images/tours/culture-heritage.jpg",
     description:
-      "With over 2,000 years of rich history, Sri Lanka is an island that boasts of ancient kingdoms built with garden cities, rock fortresses, and endless lakes ruled by monarchs of legendary personalities. Visit the ruins and amaze yourself with the stories that are brought to life on this tour.",
+      "For travellers inspired by history — the ultimate Sri Lanka cultural holiday. This 8-day journey covers 5 of Sri Lanka's 8 UNESCO World Heritage Sites: Anuradhapura, Dambulla, Sigiriya, Polonnaruwa, Galle, and Kandy, bringing over 2,000 years of Sri Lankan civilisation to life.",
     slug: "culture-heritage-tour",
   },
   {
@@ -46,12 +46,12 @@ const tours = [
     duration: "8 Nights / 9 Days",
     image: "/images/tours/honeymoon.jpg",
     description:
-      "From star-studded skies in deep blue oceans amidst a backdrop of pink canopy sunsets, this paradise island has lured lovers from around the world for years. The soothing cool climates and misty hills, whisper calming melodies, as the pearl-white waves as they gently kiss the golden sands.",
+      "Begin your forever together on Asia's most romantic island. A beautifully crafted 9-day journey balancing adventure, culture, and pure relaxation — elephant blessings at Pinnawala, a scenic train ride through misty tea plantations, Small Adam's Peak in Ella, and a private candlelit dinner on the beach.",
     slug: "honeymoon-tour",
   },
 ];
 
-const TourCard = ({ tour, index, reverse }) => {
+const TourCard = ({ tour, index }) => {
   const ref = useRef(null);
   const navigate = useNavigate();
   useScrollReveal(ref, index * 100);
@@ -64,7 +64,8 @@ const TourCard = ({ tour, index, reverse }) => {
         transform: "translateY(28px)",
         transition: "opacity 0.6s ease, transform 0.6s ease",
       }}
-      className="flex flex-col sm:flex-row gap-0 rounded-2xl overflow-hidden border border-gray-100 hover:shadow-md transition-shadow duration-300 bg-white"
+      className="flex flex-col sm:flex-row rounded-2xl overflow-hidden border border-gray-100 hover:shadow-md transition-shadow duration-300 bg-white cursor-pointer"
+      onClick={() => navigate(`/tours/${tour.slug}`)}
     >
       {/* Image */}
       <div className="relative w-full sm:w-[220px] shrink-0 h-52 sm:h-auto">
@@ -73,8 +74,10 @@ const TourCard = ({ tour, index, reverse }) => {
           alt={tour.title}
           className="w-full h-full object-cover"
         />
-        {/* Wishlist button */}
-        <button className="absolute top-3 right-3 w-7 h-7 rounded-full bg-white flex items-center justify-center shadow hover:bg-orange-50 transition-colors">
+        <button
+          onClick={(e) => e.stopPropagation()}
+          className="absolute top-3 right-3 w-7 h-7 rounded-full bg-white flex items-center justify-center shadow hover:bg-orange-50 transition-colors"
+        >
           <FaHeart className="text-gray-300 hover:text-orange-500 text-xs transition-colors" />
         </button>
       </div>
@@ -91,7 +94,10 @@ const TourCard = ({ tour, index, reverse }) => {
           </p>
         </div>
         <button
-          onClick={() => navigate(`/tours/${tour.slug}`)}
+          onClick={(e) => {
+            e.stopPropagation();
+            navigate(`/tours/${tour.slug}`);
+          }}
           className="mt-4 bg-gray-900 hover:bg-orange-500 transition-colors text-white text-xs font-semibold px-5 py-2.5 rounded-lg w-fit"
         >
           Book Now
@@ -105,13 +111,11 @@ const TourPackages = () => {
   const headingRef = useRef(null);
   useScrollReveal(headingRef, 0);
 
-  // Split into two columns
   const leftCol = tours.filter((_, i) => i % 2 === 0);
   const rightCol = tours.filter((_, i) => i % 2 !== 0);
 
   return (
     <section className="w-full max-w-5xl mx-auto px-4 sm:px-6 py-14">
-      {/* Heading */}
       <div
         ref={headingRef}
         style={{
@@ -131,16 +135,12 @@ const TourPackages = () => {
         </p>
       </div>
 
-      {/* Two-column grid — stacks on mobile */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        {/* Left column */}
         <div className="flex flex-col gap-5">
           {leftCol.map((tour, i) => (
             <TourCard key={tour.id} tour={tour} index={i * 2} />
           ))}
         </div>
-
-        {/* Right column */}
         <div className="flex flex-col gap-5">
           {rightCol.map((tour, i) => (
             <TourCard key={tour.id} tour={tour} index={i * 2 + 1} />
