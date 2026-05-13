@@ -2,6 +2,7 @@ import PageHero from "../common/PageHero";
 import AboutStory from "../about/AboutStory";
 import TravelGuides from "../about/TravelGuide";
 import WhyChooseUs from "../about/WhyChooseUs";
+import CommonCallToAction from "../common/CommonCallToAction";
 
 const AboutPage = () => {
   return (
@@ -17,6 +18,7 @@ const AboutPage = () => {
       <AboutStory />
       <TravelGuides />
         <WhyChooseUs />
+        <CommonCallToAction />
     </>
   );
 };

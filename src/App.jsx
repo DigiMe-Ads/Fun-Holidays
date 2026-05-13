@@ -11,7 +11,8 @@ import  Footer from "./common/Footer";
 import ScrollToTop from "./ui/ScrollToTop";
 import TourDetailPage from "./pages/TourDetailPage";
 import BlogPage from "./pages/BlogPage";
-
+import BlogListPage from "./pages/BlogListPage";
+import BlogDetailPage from "./pages/BlogDetailPage";
 
 
 function App() {
@@ -29,6 +30,8 @@ function App() {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/tours/:slug" element={<TourDetailPage />} />
         <Route path="/blogs" element={<BlogPage />} />
+        <Route path="/blog" element={<BlogListPage />} />
+        <Route path="/blog/:slug" element={<BlogDetailPage />} />
       </Routes>
       <Footer />
     </BrowserRouter>

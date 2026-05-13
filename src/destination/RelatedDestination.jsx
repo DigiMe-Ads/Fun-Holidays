@@ -9,15 +9,15 @@ const destinations = [
     subtitle: "Ella",
     tours: 20,
     image: "/images/destination/related-mountain.jpg",
-    slug: "mountain",
+    slug: "nature-trails-trekking",
   },
   {
     id: 2,
     title: "Wild Life",
     subtitle: "Yala",
     tours: 18,
-    image: "/images/destination/related-wildlife.jpg",
-    slug: "wild-life",
+    image: "/images/home/leopard.png",
+    slug: "into-the-wild",
   },
   {
     id: 3,
@@ -25,15 +25,15 @@ const destinations = [
     subtitle: "Jaffna",
     tours: 20,
     image: "/images/destination/related-beach.jpg",
-    slug: "beach",
+    slug: "sun-and-fun",
   },
   {
     id: 4,
-    title: "Ancient City",
+    title: "Bird Watching",
     subtitle: "Polonnaruwa",
     tours: 10,
-    image: "/images/destination/related-ancient.jpg",
-    slug: "ancient-city",
+    image: "/images/destination/peacock.png",
+    slug: "bird-watching",
   },
 ];
 

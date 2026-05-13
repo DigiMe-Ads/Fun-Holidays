@@ -1,5 +1,6 @@
 import PageHero from "../common/PageHero";
 import BlogSection from "../Home/BlogSection";
+import CommonCallToAction from "../common/CommonCallToAction";
 
 const BlogPage = () => {
   return (
@@ -13,6 +14,7 @@ const BlogPage = () => {
         ]}
       />
         <BlogSection />
+        <CommonCallToAction />
     </>
   );
 };

@@ -1,5 +1,7 @@
 import PageHero from "../common/PageHero";
 import TourPackages from "../tours/TourPackages";
+import CommonCallToAction from "../common/CommonCallToAction";
+
 const ToursPage = () => {
   return (
     <>
@@ -12,7 +14,7 @@ const ToursPage = () => {
         ]}
       />
         <TourPackages />
-        
+        <CommonCallToAction />
     </>
   );
 };

@@ -8,7 +8,7 @@ const navLinks = [
   { label: "Destinations", path: "/destinations" },
   { label: "Tour Packages", path: "/tours" },
   { label: "About Us", path: "/about" },
-  { label: "Blog", path: "/blogs" },
+  { label: "Blog", path: "/blog" },
   { label: "Contact Us", path: "/contact" },
 ];
 
@@ -22,10 +22,11 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-2 py-3 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 shrink-0">
-          <div className="bg-orange-500 text-white p-2 rounded-lg">
+          {/* <div className="bg-orange-500 text-white p-2 rounded-lg">
             <FaPlane className="text-lg rotate-45" />
           </div>
-          <span className="font-bold text-gray-900 text-lg">Fun Holidays</span>
+          <span className="font-bold text-gray-900 text-lg">Fun Holidays</span> */}
+          <img src="/fun-holidays-logo.png" alt="Fun Holidays Logo" className="h-12 w-auto" />
         </Link>
 
         {/* Desktop Nav Links */}
