@@ -37,7 +37,7 @@ const slides = [
       },
       {
         id: 5,
-        title: "Sun & Beach Holidays",
+        title: "Sun and Fun",
         image: "/images/destination/sunset-beach.jpg",
         description:
           "Over 1,300 kilometres of stunning coastline — Sri Lanka's beaches rival Bali and Phuket and are far less crowded. The south and west coasts shine from November to April; the pristine east coast comes alive from May to September. From Hikkaduwa's coral reef to Passikudah's translucent lagoon, outstanding beach conditions await year-round.",
@@ -72,10 +72,10 @@ const slides = [
       },
     ],
   },
-  { id: 2, activities: [] },
-  { id: 3, activities: [] },
-  { id: 4, activities: [] },
-  { id: 5, activities: [] },
+  // { id: 2, activities: [] },
+  // { id: 3, activities: [] },
+  // { id: 4, activities: [] },
+  // { id: 5, activities: [] },
 ];
 
 const ROW_HEIGHT = 175;
@@ -88,7 +88,7 @@ const rowColTemplates = [
 
 const slideDirection = {
   0: "right",
-  1: null,
+  1: "center", // overlay directly on top of the card
   2: "left",
 };
 
@@ -101,10 +101,8 @@ const MobileCard = ({ item, index }) => {
 
   const handleTap = () => {
     if (tapped) {
-      // Second tap → navigate
       navigate(`/destination/${toSlug(item.title)}`);
     } else {
-      // First tap → show description
       setTapped(true);
     }
   };
@@ -120,7 +118,6 @@ const MobileCard = ({ item, index }) => {
       className="relative h-48 rounded-2xl overflow-hidden cursor-pointer"
       onClick={handleTap}
     >
-      {/* Image */}
       <img
         src={item.image}
         alt={item.title}
@@ -128,12 +125,10 @@ const MobileCard = ({ item, index }) => {
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
 
-      {/* Title always visible */}
       <div className="absolute bottom-3 left-4 text-white z-10">
         <p className="font-semibold text-sm drop-shadow">{item.title}</p>
       </div>
 
-      {/* Description overlay on first tap */}
       {tapped && (
         <div
           className="absolute inset-0 z-20 flex flex-col justify-between px-5 py-4 rounded-2xl"
@@ -173,7 +168,23 @@ const DesktopGrid = ({ rows, hovered, setHovered, onCardClick }) => (
           const isHovered =
             hovered?.rowIdx === rowIdx && hovered?.colIdx === colIdx;
           const dir = slideDirection[colIdx];
-          const showPanel = isHovered && dir !== null;
+
+          // Center cards overlay on top; left/right cards slide out from the edge
+          const panelStyle =
+            dir === "center"
+              ? {
+                  inset: 0,
+                  animation: "fadeUp 0.3s cubic-bezier(0.22,1,0.36,1) both",
+                }
+              : {
+                  top: 0,
+                  height: ROW_HEIGHT,
+                  width: "160%",
+                  ...(dir === "right"
+                    ? { left: "calc(100% - 16px)" }
+                    : { right: "calc(100% - 16px)" }),
+                  animation: `slideIn-${dir} 0.3s cubic-bezier(0.22,1,0.36,1) both`,
+                };
 
           return (
             <div
@@ -201,20 +212,15 @@ const DesktopGrid = ({ rows, hovered, setHovered, onCardClick }) => (
                 </p>
               </div>
 
-              {/* Sliding description panel */}
-              {showPanel && (
+              {/* Description panel */}
+              {isHovered && (
                 <div
-                  className="absolute top-0 z-30 rounded-2xl flex flex-col justify-between px-6 py-5"
+                  className="absolute z-30 rounded-2xl flex flex-col justify-between px-6 py-5"
                   style={{
-                    height: ROW_HEIGHT,
-                    width: "160%",
-                    ...(dir === "right"
-                      ? { left: "100%", marginLeft: "12px" }
-                      : { right: "100%", marginRight: "12px" }),
                     background:
                       "linear-gradient(135deg, rgba(25,25,25,0.97) 0%, rgba(45,45,45,0.92) 100%)",
                     backdropFilter: "blur(4px)",
-                    animation: `slideIn-${dir} 0.3s cubic-bezier(0.22,1,0.36,1) both`,
+                    ...panelStyle,
                   }}
                 >
                   <p className="text-white text-sm leading-relaxed">
