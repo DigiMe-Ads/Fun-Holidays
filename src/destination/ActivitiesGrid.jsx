@@ -30,7 +30,7 @@ const slides = [
       },
       {
         id: 4,
-        title: "Into the Wild — Safaris",
+        title: "Into the Wild",
         image: "/images/destination/leopard-tree.jpg",
         description:
           "Yala National Park holds the world's highest density of wild leopards. Your jeep slows — a female leopard regards you from 15 metres with magnificent calm. Elephants cross the road. A sloth bear shuffles through the undergrowth. Beyond Yala, Udawalawe offers reliable elephant herds and Wilpattu provides a wilder, more remote safari experience.",
