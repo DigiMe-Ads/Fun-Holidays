@@ -6,7 +6,7 @@ const ContactPage = () => {
     <>
       <PageHero
         title="Contact Us"
-        image="/images/contact/hero.jpg"
+        image="/images/contact/hero-1.webp"
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Contact Us" },

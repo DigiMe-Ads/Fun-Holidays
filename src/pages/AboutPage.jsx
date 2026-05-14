@@ -9,7 +9,7 @@ const AboutPage = () => {
     <>
       <PageHero
         title="About Us"
-        image="/images/about/hero.jpg"
+        image="/images/about/hero-3.jpg"
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "About Us" },

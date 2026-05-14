@@ -4,22 +4,26 @@ import { FaPlay } from "react-icons/fa";
 
 const values = [
   {
-    title: "We Are Fun",
+    title: "WE ARE FUN",
+    icon: "/images/about/fun-icon.png",
     description:
       "We understand that packaged tours can feel repetitive and mundane — but this will never happen with us. Our priority is to ensure every guest has genuine fun, and when our guests are happy, so are we. We go the extra mile — every time. Explore Sri Lanka with the Fun Family and experience what a holiday really should feel like.",
   },
   {
-    title: "We Are Flexible",
+    title: "WE ARE FLEXIBLE",
+    icon: "/images/about/flexible-icon.png",
     description:
       "Want to spend an extra day in Nuwara Eliya? That is completely fine with us. We understand that holidays rarely go exactly to plan — and we believe that flexibility is not just a nice-to-have, it is essential. Whether you are on a packaged tour or a completely tailor-made holiday, we adapt around you. Your happiness comes first.",
   },
   {
-    title: "We Are Reliable",
+    title: "WE ARE RELIABLE",
+    icon: "/images/about/relaiable-icon.png",
     description:
       "Having fun does not mean being unreliable — it means being fun AND reliable. We ensure your itinerary flows exactly as you want it to, every time. Our team's experience, local knowledge, and genuine commitment to your wellbeing means you can trust us completely to deliver a memorable, safe, and seamless Sri Lanka holiday.",
   },
   {
-    title: "We Are Experts",
+    title: "WE ARE EXPERTS",
+    icon: "/images/about/experts-icon.png",
     description:
       "Our team brings over 25 years of combined experience in the Sri Lanka tourism industry. We understand the island's seasons, its hidden destinations, its culture, and its logistics better than almost anyone. Our expertise spans leisure tourism, honeymoon packages, family holidays, wildlife safaris, cultural heritage tours, and MICE travel.",
   },
@@ -42,8 +46,6 @@ const AboutStory = () => {
       {/* ── Intro: Text + Image ──────────────────────────────────── */}
       <section className="w-full max-w-5xl mx-auto px-4 sm:px-6 py-14">
         <div className="flex flex-col lg:flex-row gap-10 items-start">
-
-          {/* Left: Text */}
           <div
             ref={introRef}
             style={{
@@ -58,7 +60,6 @@ const AboutStory = () => {
               Adventures With{" "}
               <span className="text-orange-500">Fun Holidays</span>
             </h2>
-
             <div className="flex flex-col gap-5 text-gray-500 text-sm leading-relaxed">
               <p>
                 Welcome to Fun Holidays — a fresh, innovative breed among Sri
@@ -94,13 +95,7 @@ const AboutStory = () => {
             </div>
           </div>
 
-          {/* Right: Image */}
           <div
-            style={{
-              opacity: 0,
-              transform: "translateY(24px)",
-              transition: "opacity 0.6s ease, transform 0.6s ease",
-            }}
             ref={(el) => {
               if (el) {
                 el.style.opacity = "0";
@@ -111,6 +106,8 @@ const AboutStory = () => {
                       setTimeout(() => {
                         el.style.opacity = "1";
                         el.style.transform = "translateY(0)";
+                        el.style.transition =
+                          "opacity 0.6s ease, transform 0.6s ease";
                       }, 280);
                       observer.disconnect();
                     }
@@ -123,7 +120,7 @@ const AboutStory = () => {
             className="w-full lg:w-[280px] shrink-0 h-[420px] rounded-2xl overflow-hidden"
           >
             <img
-              src="/images/about/story-path.jpg"
+              src="/images/about/kandy.jpeg"
               alt="Sri Lanka scenic path"
               className="w-full h-full object-cover"
             />
@@ -145,14 +142,26 @@ const AboutStory = () => {
             {values.map((v, i) => (
               <div
                 key={i}
-                className="bg-gray-50 rounded-2xl p-6 border border-gray-100 hover:shadow-md transition-shadow duration-300"
+                className="bg-white rounded-2xl p-8 border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center group"
               >
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="w-2 h-2 rounded-full bg-orange-500 shrink-0" />
-                  <h3 className="text-gray-900 font-bold text-base">
-                    {v.title}
-                  </h3>
+                {/* Icon */}
+                <div className="w-24 h-24 mb-6 flex items-center justify-center">
+                  <img
+                    src={v.icon}
+                    alt={v.title}
+                    className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300"
+                  />
                 </div>
+
+                {/* Orange divider */}
+                <div className="w-10 h-0.5 bg-orange-500 mb-5" />
+
+                {/* Title */}
+                <h3 className="text-gray-900 font-black text-lg tracking-widest uppercase mb-4">
+                  {v.title}
+                </h3>
+
+                {/* Description */}
                 <p className="text-gray-500 text-sm leading-relaxed">
                   {v.description}
                 </p>
@@ -174,13 +183,16 @@ const AboutStory = () => {
           className="grid grid-cols-1 sm:grid-cols-2 gap-5"
         >
           {/* Vision */}
-          <div className="bg-[#1a1a1a] rounded-2xl p-7 flex flex-col gap-3">
-            <span className="text-orange-500 text-xs font-bold uppercase tracking-widest">
+          <div className="bg-[#1a1a1a] rounded-2xl p-8 flex flex-col gap-4 relative overflow-hidden">
+            <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full bg-orange-500/10" />
+            <div className="absolute -bottom-6 -left-6 w-20 h-20 rounded-full bg-orange-500/5" />
+            <span className="text-orange-500 text-xs font-black uppercase tracking-widest">
               Our Vision
             </span>
-            <h3 className="text-white font-bold text-lg leading-snug">
+            {/* <h3 className="text-white font-extrabold text-xl leading-snug">
               Sri Lanka's Most Trusted Travel Partner
-            </h3>
+            </h3> */}
+            <div className="w-10 h-0.5 bg-orange-500" />
             <p className="text-gray-400 text-sm leading-relaxed">
               To be Sri Lanka's most trusted and preferred travel partner —
               delivering fun, flexible, reliable, and expert holiday experiences
@@ -190,14 +202,17 @@ const AboutStory = () => {
           </div>
 
           {/* Mission */}
-          <div className="bg-orange-500 rounded-2xl p-7 flex flex-col gap-3">
-            <span className="text-white/80 text-xs font-bold uppercase tracking-widest">
+          <div className="bg-orange-500 rounded-2xl p-8 flex flex-col gap-4 relative overflow-hidden">
+            <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full bg-white/10" />
+            <div className="absolute -bottom-6 -left-6 w-20 h-20 rounded-full bg-white/5" />
+            <span className="text-white/80 text-xs font-black uppercase tracking-widest">
               Our Mission
             </span>
-            <h3 className="text-white font-bold text-lg leading-snug">
+            {/* <h3 className="text-white font-extrabold text-xl leading-snug">
               Unforgettable Sri Lanka Experiences
-            </h3>
-            <p className="text-white/85 text-sm leading-relaxed">
+            </h3> */}
+            <div className="w-10 h-0.5 bg-white/50" />
+            <p className="text-white/90 text-sm leading-relaxed">
               To create unforgettable Sri Lanka experiences — whether a family
               holiday, a romantic honeymoon, a cultural heritage tour, a
               wildlife safari adventure, or a world-class MICE event — that
@@ -244,8 +259,6 @@ const AboutStory = () => {
             </>
           )}
         </div>
-
-        {/* Label bar */}
         <div className="w-full bg-[#1a1a1a] py-5 px-4 text-center">
           <p className="text-white text-lg sm:text-2xl font-semibold tracking-wide">
             Unlimited Travel Experience
