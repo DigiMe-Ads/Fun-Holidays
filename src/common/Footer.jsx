@@ -88,7 +88,7 @@ const Footer = () => {
             <li className="flex items-start gap-3">
               <MdLocationOn className="text-gray-400 text-lg mt-0.5 shrink-0" />
               <span className="text-gray-400 text-sm leading-relaxed">
-                578 Level, D-block Street <br /> Melbourne, Australia
+                #271 Stanley Thilakeratne Mw, Nugegoda,<br />  Colombo, Sri Lanka 
               </span>
             </li>
             <li className="flex items-center gap-3">
@@ -97,7 +97,7 @@ const Footer = () => {
                 href="mailto:supportrevelo@gmail.com"
                 className="text-gray-400 text-sm hover:text-orange-500 transition-colors"
               >
-                supportrevelo@gmail.com
+                info@funholidays.lk
               </a>
             </li>
             <li className="flex items-center gap-3">
@@ -106,7 +106,7 @@ const Footer = () => {
                 href="tel:+88012334588"
                 className="text-gray-400 text-sm hover:text-orange-500 transition-colors"
               >
-                +880 123 345 88
+                +94 114 320 315
               </a>
             </li>
           </ul>

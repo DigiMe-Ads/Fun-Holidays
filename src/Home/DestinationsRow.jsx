@@ -56,7 +56,7 @@ const DestinationCard = ({ item, index }) => {
   return (
     <div
       ref={cardRef}
-      className="flex flex-col items-center gap-2 sm:gap-3"
+      className="flex flex-col items-center gap-2 sm:gap-3 w-full"
       style={{
         opacity: 0,
         transform: "translateY(30px)",
@@ -64,7 +64,7 @@ const DestinationCard = ({ item, index }) => {
       }}
     >
       {/* Image */}
-      <div className="w-full h-[180px] sm:h-[260px] lg:h-[380px] rounded-2xl overflow-hidden group cursor-pointer">
+      <div className="w-full aspect-[3/4] rounded-2xl overflow-hidden group cursor-pointer">
         <img
           src={item.image}
           alt={item.title}
@@ -83,33 +83,11 @@ const DestinationCard = ({ item, index }) => {
 const DestinationsRow = () => {
   return (
     <section className="w-full px-3 sm:px-6 py-6 sm:py-8">
-
-      {/* ── Mobile: 2×3 grid ─────────────────────────────── */}
-      <div className="grid grid-cols-2 gap-3 sm:hidden">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4 py-0 sm:py-9">
         {destinations.map((dest, i) => (
           <DestinationCard key={dest.id} item={dest} index={i} />
         ))}
       </div>
-
-      {/* ── Tablet: 3-column grid ─────────────────────────── */}
-      <div className="hidden sm:grid md:hidden grid-cols-3 gap-3">
-        {destinations.map((dest, i) => (
-          <DestinationCard key={dest.id} item={dest} index={i} />
-        ))}
-      </div>
-
-      {/* ── Desktop: 5-column flex row ────────────────────── */}
-      <div className="hidden md:flex gap-4 py-9">
-        {destinations.map((dest, i) => (
-          <DestinationCard
-            key={dest.id}
-            item={dest}
-            index={i}
-            className="flex-1"
-          />
-        ))}
-      </div>
-
     </section>
   );
 };

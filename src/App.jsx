@@ -13,7 +13,7 @@ import TourDetailPage from "./pages/TourDetailPage";
 import BlogPage from "./pages/BlogPage";
 import BlogListPage from "./pages/BlogListPage";
 import BlogDetailPage from "./pages/BlogDetailPage";
-
+import TailorMadePage from "./pages/TailorMadePage";
 
 function App() {
   return (
@@ -26,6 +26,7 @@ function App() {
         <Route path="/destinations" element={<DestinationPage />} />
         <Route path="/destination/:slug" element={<DestinationDetailPage />} />
         <Route path="/tours" element={<ToursPage />} />
+        <Route path="/tailor-made" element={<TailorMadePage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/tours/:slug" element={<TourDetailPage />} />

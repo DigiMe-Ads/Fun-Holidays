@@ -7,6 +7,7 @@ const navLinks = [
   { label: "Home", path: "/" },
   { label: "Destinations", path: "/destinations" },
   { label: "Tour Packages", path: "/tours" },
+  { label: "Tailor Made", path: "/tailor-made" },
   { label: "About Us", path: "/about" },
   { label: "Blog", path: "/blog" },
   { label: "Contact Us", path: "/contact" },

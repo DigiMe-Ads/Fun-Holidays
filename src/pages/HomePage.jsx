@@ -8,6 +8,7 @@ import DestinationsRow from "../Home/DestinationsRow";
 import Testimonials from "../Home/Testimonials";
 import BlogSection from "../Home/BlogSection";
 import CallToAction from "../Home/CallToAction";
+import FeaturedCallouts from "../Home/FeaturedCallOuts";
 
 const HomePage = () => {
   return (
@@ -15,6 +16,7 @@ const HomePage = () => {
       <div >
         <Hero/>
         <StatsBar/>
+        <FeaturedCallouts/>
         <DestinationsCollage/>
         <AboutBanner/>
         <AboutDetails/> 

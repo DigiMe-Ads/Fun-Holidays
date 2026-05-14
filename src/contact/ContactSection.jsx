@@ -14,7 +14,7 @@ const contactDetails = [
     id: 2,
     icon: FaPhone,
     title: "Call Us",
-    lines: ["+1 123456 7890", "Available 24/7 hours"],
+    lines: ["+94 114 320 315", "Available 24/7 hours"],
   },
   {
     id: 3,
