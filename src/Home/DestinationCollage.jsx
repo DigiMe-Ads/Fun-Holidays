@@ -1,6 +1,5 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import useScrollReveal from "../hooks/useScrollReveal";
-import { useNavigate } from "react-router-dom";
 
 const allSlides = [
   // ── Slide 1 ─────────────────────────────────────────────────
@@ -176,146 +175,368 @@ const allSlides = [
       meta: "Year-round · 1 day to 2 weeks · Traditional ayurveda",
     },
   ],
+
+  // ── Slide 4 ─────────────────────────────────────────────────
+  [
+    {
+      id: 19,
+      title: "Team Building & Outbound Training",
+      subtitle: "Corporate Groups",
+      image: "/images/home/Outbound.jpg",
+      description:
+        "Sri Lanka is one of Asia's most popular destinations for corporate team building and outbound training programmes. The island's extraordinary natural environments — jungle rivers, ancient ruins, national parks, and pristine beaches — provide a unique backdrop for activities that build trust, strengthen communication, and create lasting bonds between team members. From whitewater rafting challenges and wildlife safari team days to cooking competitions and cultural immersion experiences, Fun Holidays designs corporate team building programmes that people actually enjoy — and remember.",
+      meta: "Best for: Corporate groups 10–200 people · Duration: 1–3 days · Location: Kitulgala, Kandy, Colombo",
+    },
+    {
+      id: 20,
+      title: "Cricket",
+      subtitle: "Sri Lanka's National Passion",
+      image: "/images/home/Cricket.jpg",
+      description:
+        "Cricket is more than a sport in Sri Lanka — it is the heartbeat of the nation. The island that produced legends like Muttiah Muralitharan, Sanath Jayasuriya, and Aravinda de Silva still plays the game with extraordinary passion and skill at every level. Fun Holidays can organise your cricket tour of Sri Lanka, arrange match tickets for international fixtures at the R. Premadasa Stadium in Colombo, or connect you with local club games where you can experience the genuine spirit of Sri Lankan cricket up close.",
+      meta: "Best for: Cricket lovers, sports groups · Available: Year-round · Venues: Colombo, Kandy, Pallekele",
+    },
+  ],
 ];
 
-const CollageCard = ({ item, className = "", style = {} }) => {
-  const navigate = useNavigate();
-  const slug = item.title
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
+const SLIDE_LABELS = [
+  "Activities 1 – 6 of 20",
+  "Activities 7 – 12 of 20",
+  "Activities 13 – 18 of 20",
+  "Activities 19 – 20 of 20",
+];
+
+const AUTO_ADVANCE_MS = 5000;
+
+// ── Activity Dialog ────────────────────────────────────────────
+const ActivityDialog = ({ item, onClose }) => {
+  useEffect(() => {
+    const handleKey = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", handleKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", handleKey);
+      document.body.style.overflow = "";
+    };
+  }, [onClose]);
 
   return (
     <div
-      className={`relative overflow-hidden rounded-2xl cursor-pointer group ${className}`}
-      style={style}
-      
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
+      style={{
+        background: "rgba(0,0,0,0.78)",
+        backdropFilter: "blur(6px)",
+        WebkitBackdropFilter: "blur(6px)",
+      }}
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label={item.title}
     >
-      <img
-        src={item.image}
-        alt={item.title}
-        className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-      />
-
-      {/* Default gradient */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent transition-opacity duration-300 group-hover:opacity-0" />
-
-      {/* Default label */}
-      <div className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 text-white transition-opacity duration-300 group-hover:opacity-0">
-        <p className="text-sm sm:text-base font-bold drop-shadow-md leading-snug">
-          {item.title}
-        </p>
-        <p className="text-xs text-gray-300 mt-0.5">{item.subtitle}</p>
-      </div>
-
-      {/* Hover overlay */}
       <div
-        className="absolute inset-0 flex flex-col justify-end p-4 sm:p-5 opacity-0 group-hover:opacity-100 transition-all duration-300"
+        className="relative w-full max-w-lg rounded-2xl overflow-hidden flex flex-col"
         style={{
-          background:
-            "linear-gradient(to top, rgba(15,15,15,0.97) 0%, rgba(20,20,20,0.85) 60%, rgba(0,0,0,0.2) 100%)",
+          background: "#111111",
+          border: "1px solid rgba(255,255,255,0.08)",
+          maxHeight: "88vh",
+          boxShadow: "0 32px 80px rgba(0,0,0,0.7)",
         }}
+        onClick={(e) => e.stopPropagation()}
       >
-        <div className="translate-y-3 group-hover:translate-y-0 transition-transform duration-300">
-          <div className="w-8 h-0.5 bg-orange-500 mb-2" />
-          <p className="text-white font-bold text-sm sm:text-base leading-snug mb-1">
-            {item.title}
-          </p>
-          <p className="text-orange-400 text-[10px] font-semibold mb-2">
+        {/* Close button */}
+        <button
+          onClick={onClose}
+          className="absolute top-3 right-3 z-10 flex items-center justify-center w-8 h-8 rounded-full text-white text-sm transition-all duration-200"
+          style={{
+            background: "rgba(0,0,0,0.55)",
+            border: "1px solid rgba(255,255,255,0.18)",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = "rgba(249,115,22,0.25)";
+            e.currentTarget.style.borderColor = "rgba(249,115,22,0.6)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = "rgba(0,0,0,0.55)";
+            e.currentTarget.style.borderColor = "rgba(255,255,255,0.18)";
+          }}
+          aria-label="Close dialog"
+        >
+          ✕
+        </button>
+
+        {/* Hero image */}
+        <div className="relative flex-shrink-0" style={{ height: "230px" }}>
+          <img
+            src={item.image}
+            alt={item.title}
+            className="w-full h-full object-cover"
+          />
+          <div
+            className="absolute bottom-0 left-0 right-0"
+            style={{
+              height: "80px",
+              background: "linear-gradient(to bottom, transparent, #111111)",
+            }}
+          />
+        </div>
+
+        {/* Scrollable content */}
+        <div className="overflow-y-auto px-6 pb-6 pt-2 flex-1">
+          <div
+            className="rounded-full mb-3"
+            style={{ width: "36px", height: "3px", background: "#f97316" }}
+          />
+          <p
+            className="font-semibold tracking-widest uppercase mb-2"
+            style={{ color: "#fb923c", fontSize: "10px", letterSpacing: "0.1em" }}
+          >
             {item.subtitle}
           </p>
-          <p className="text-gray-300 text-xs leading-relaxed mb-2 line-clamp-3">
+          <h2
+            className="font-bold leading-snug mb-4"
+            style={{ color: "#ffffff", fontSize: "20px" }}
+          >
+            {item.title}
+          </h2>
+          <div
+            className="mb-4"
+            style={{ height: "1px", background: "rgba(255,255,255,0.08)" }}
+          />
+          <p
+            className="leading-relaxed mb-5"
+            style={{ color: "#d1d5db", fontSize: "14px", lineHeight: "1.8" }}
+          >
             {item.description}
           </p>
-          <p className="text-gray-500 text-[10px] italic">{item.meta}</p>
+          <div
+            className="inline-flex items-center gap-2 rounded-xl"
+            style={{
+              background: "rgba(249,115,22,0.1)",
+              border: "1px solid rgba(249,115,22,0.25)",
+              padding: "8px 14px",
+            }}
+          >
+            <svg
+              width="13"
+              height="13"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#fb923c"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+            <span
+              className="font-medium"
+              style={{ color: "#fb923c", fontSize: "12px" }}
+            >
+              {item.meta}
+            </span>
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-const CollageGrid = ({ destinations }) => (
-  <>
-    {/* Mobile: 2-col */}
-    <div className="grid grid-cols-2 gap-2 sm:hidden">
-      {destinations.map((item) => (
-        <CollageCard key={item.id} item={item} className="h-44" />
-      ))}
+// ── Collage Card ───────────────────────────────────────────────
+const CollageCard = ({ item, className = "", style = {}, onOpen }) => (
+  <div
+    className={`relative overflow-hidden rounded-2xl cursor-pointer group ${className}`}
+    style={style}
+    onClick={() => onOpen(item)}
+    role="button"
+    tabIndex={0}
+    aria-label={`View details for ${item.title}`}
+    onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") onOpen(item); }}
+  >
+    <img
+      src={item.image}
+      alt={item.title}
+      className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+    />
+    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent transition-opacity duration-300 group-hover:opacity-0" />
+    <div className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 text-white transition-opacity duration-300 group-hover:opacity-0">
+      <p className="text-sm sm:text-base font-bold drop-shadow-md leading-snug">
+        {item.title}
+      </p>
+      <p className="text-xs text-gray-300 mt-0.5">{item.subtitle}</p>
     </div>
-
-    {/* Tablet: 3-col */}
     <div
-      className="hidden sm:grid md:hidden gap-2"
+      className="absolute inset-0 flex flex-col justify-end p-4 sm:p-5 opacity-0 group-hover:opacity-100 transition-all duration-300"
       style={{
-        gridTemplateColumns: "1fr 1fr 1fr",
-        gridTemplateRows: "200px 200px",
+        background:
+          "linear-gradient(to top, rgba(15,15,15,0.97) 0%, rgba(20,20,20,0.85) 60%, rgba(0,0,0,0.2) 100%)",
       }}
     >
-      <CollageCard item={destinations[0]} style={{ gridColumn: "1", gridRow: "1 / 3" }} />
-      <CollageCard item={destinations[1]} style={{ gridColumn: "2", gridRow: "1" }} />
-      <CollageCard item={destinations[2]} style={{ gridColumn: "3", gridRow: "1" }} />
-      <CollageCard item={destinations[3]} style={{ gridColumn: "2", gridRow: "2" }} />
-      <CollageCard item={destinations[4]} style={{ gridColumn: "3", gridRow: "2" }} />
+      <div className="translate-y-3 group-hover:translate-y-0 transition-transform duration-300">
+        <div className="w-8 h-0.5 bg-orange-500 mb-2" />
+        <p className="text-white font-bold text-sm sm:text-base leading-snug mb-1">
+          {item.title}
+        </p>
+        <p className="text-orange-400 text-[10px] font-semibold mb-2">
+          {item.subtitle}
+        </p>
+        <p className="text-gray-300 text-xs leading-relaxed mb-2 line-clamp-3">
+          {item.description}
+        </p>
+        <p className="text-gray-500 text-[10px] italic">{item.meta}</p>
+        <p className="text-orange-500 text-[10px] font-semibold mt-2 sm:hidden">
+          Tap for details →
+        </p>
+      </div>
     </div>
-
-    {/* Desktop: asymmetric */}
-    <div
-      className="hidden md:grid gap-3"
-      style={{
-        gridTemplateColumns: "1fr 1fr 1.8fr 1fr",
-        gridTemplateRows: "220px 220px",
-      }}
-    >
-      <CollageCard item={destinations[0]} style={{ gridColumn: "1", gridRow: "1 / 3" }} />
-      <CollageCard item={destinations[1]} style={{ gridColumn: "2", gridRow: "1" }} />
-      <CollageCard item={destinations[2]} style={{ gridColumn: "3", gridRow: "1 / 3" }} />
-      <CollageCard item={destinations[3]} style={{ gridColumn: "4", gridRow: "1" }} />
-      <CollageCard item={destinations[4]} style={{ gridColumn: "2", gridRow: "2" }} />
-      <CollageCard item={destinations[5]} style={{ gridColumn: "4", gridRow: "2" }} />
-    </div>
-  </>
+  </div>
 );
 
-const DestinationsCollage = () => {
-  const ref = useRef(null);
-  const [activeSlide, setActiveSlide] = useState(0);
-  useScrollReveal(ref, 0);
+// ── Collage Grid — handles 2-card and 6-card slides ────────────
+const CollageGrid = ({ destinations, onOpen }) => {
+  const count = destinations.length;
+
+  const desktopLayout = [
+    { gridColumn: "1", gridRow: "1 / 3" },
+    { gridColumn: "2", gridRow: "1" },
+    { gridColumn: "3", gridRow: "1 / 3" },
+    { gridColumn: "4", gridRow: "1" },
+    { gridColumn: "2", gridRow: "2" },
+    { gridColumn: "4", gridRow: "2" },
+  ];
 
   return (
-    <section
-      ref={ref}
-      style={{
-        opacity: 0,
-        transform: "translateY(30px)",
-        transition: "opacity 0.6s ease, transform 0.6s ease",
-      }}
-      className="w-full px-3 sm:px-6 py-4"
-    >
-      {/* Grid */}
-      <CollageGrid destinations={allSlides[activeSlide]} />
-
-      {/* Carousel dots */}
-      <div className="flex items-center justify-center gap-3 mt-5">
-        {allSlides.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => setActiveSlide(i)}
-            className={`rounded-full transition-all duration-300 ${
-              i === activeSlide
-                ? "w-7 h-2.5 bg-orange-500"
-                : "w-2.5 h-2.5 bg-gray-300 hover:bg-orange-300"
-            }`}
-          />
+    <>
+      {/* Mobile: auto 2-col, fills however many cards exist */}
+      <div className="grid grid-cols-2 gap-2 sm:hidden">
+        {destinations.map((item) => (
+          <CollageCard key={item.id} item={item} className="h-44" onOpen={onOpen} />
         ))}
       </div>
 
-      {/* Slide label */}
-      <p className="text-center text-gray-400 text-xs mt-2">
-        {activeSlide === 0 && "Activities 1 – 6 of 18"}
-        {activeSlide === 1 && "Activities 7 – 12 of 18"}
-        {activeSlide === 2 && "Activities 13 – 18 of 18"}
-      </p>
-    </section>
+      {/* Tablet */}
+      {count >= 6 ? (
+        <div
+          className="hidden sm:grid md:hidden gap-2"
+          style={{ gridTemplateColumns: "1fr 1fr 1fr", gridTemplateRows: "200px 200px" }}
+        >
+          <CollageCard item={destinations[0]} style={{ gridColumn: "1", gridRow: "1 / 3" }} onOpen={onOpen} />
+          <CollageCard item={destinations[1]} style={{ gridColumn: "2", gridRow: "1" }} onOpen={onOpen} />
+          <CollageCard item={destinations[2]} style={{ gridColumn: "3", gridRow: "1" }} onOpen={onOpen} />
+          <CollageCard item={destinations[3]} style={{ gridColumn: "2", gridRow: "2" }} onOpen={onOpen} />
+          <CollageCard item={destinations[4]} style={{ gridColumn: "3", gridRow: "2" }} onOpen={onOpen} />
+        </div>
+      ) : (
+        <div
+          className="hidden sm:grid md:hidden gap-2"
+          style={{ gridTemplateColumns: `repeat(${count}, 1fr)`, gridTemplateRows: "260px" }}
+        >
+          {destinations.map((item) => (
+            <CollageCard key={item.id} item={item} onOpen={onOpen} />
+          ))}
+        </div>
+      )}
+
+      {/* Desktop */}
+      {count >= 6 ? (
+        <div
+          className="hidden md:grid gap-3"
+          style={{ gridTemplateColumns: "1fr 1fr 1.8fr 1fr", gridTemplateRows: "220px 220px" }}
+        >
+          {destinations.slice(0, 6).map((item, i) => (
+            <CollageCard key={item.id} item={item} style={desktopLayout[i]} onOpen={onOpen} />
+          ))}
+        </div>
+      ) : (
+        <div
+          className="hidden md:grid gap-3"
+          style={{ gridTemplateColumns: `repeat(${count}, 1fr)`, gridTemplateRows: "320px" }}
+        >
+          {destinations.map((item) => (
+            <CollageCard key={item.id} item={item} onOpen={onOpen} />
+          ))}
+        </div>
+      )}
+    </>
+  );
+};
+
+// ── Main Section ───────────────────────────────────────────────
+const DestinationsCollage = () => {
+  const ref = useRef(null);
+  const [activeSlide, setActiveSlide] = useState(0);
+  const [dialogItem, setDialogItem] = useState(null);
+  const timerRef = useRef(null);
+  useScrollReveal(ref, 0);
+
+  const startTimer = useCallback(() => {
+    clearInterval(timerRef.current);
+    timerRef.current = setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % allSlides.length);
+    }, AUTO_ADVANCE_MS);
+  }, []);
+
+  // Start auto-advance; pause while dialog is open
+  useEffect(() => {
+    if (dialogItem) {
+      clearInterval(timerRef.current);
+      return;
+    }
+    startTimer();
+    return () => clearInterval(timerRef.current);
+  }, [dialogItem, startTimer]);
+
+  const handleDotClick = (i) => {
+    setActiveSlide(i);
+    startTimer(); // reset the countdown after manual pick
+  };
+
+  return (
+    <>
+      <section
+        ref={ref}
+        style={{
+          opacity: 0,
+          transform: "translateY(30px)",
+          transition: "opacity 0.6s ease, transform 0.6s ease",
+        }}
+        className="w-full px-3 sm:px-6 py-4"
+      >
+        <CollageGrid
+          destinations={allSlides[activeSlide]}
+          onOpen={setDialogItem}
+        />
+
+        {/* Carousel dots */}
+        <div className="flex items-center justify-center gap-3 mt-5">
+          {allSlides.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => handleDotClick(i)}
+              aria-label={`Go to slide ${i + 1}`}
+              className={`rounded-full transition-all duration-300 ${
+                i === activeSlide
+                  ? "w-7 h-2.5 bg-orange-500"
+                  : "w-2.5 h-2.5 bg-gray-300 hover:bg-orange-300"
+              }`}
+            />
+          ))}
+        </div>
+
+        {/* Slide label */}
+        <p className="text-center text-gray-400 text-xs mt-2">
+          {SLIDE_LABELS[activeSlide]}
+        </p>
+      </section>
+
+      {dialogItem && (
+        <ActivityDialog item={dialogItem} onClose={() => setDialogItem(null)} />
+      )}
+    </>
   );
 };
 

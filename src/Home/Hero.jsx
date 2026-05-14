@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 
 const slides = [
   {
@@ -41,17 +41,33 @@ const slides = [
 const Hero = () => {
   const [current, setCurrent] = useState(0);
   const [animating, setAnimating] = useState(false);
+  const timerRef = useRef(null);
+
+  const goTo = useCallback((index) => {
+    setAnimating(true);
+    setTimeout(() => {
+      setCurrent(index);
+      setAnimating(false);
+    }, 350);
+  }, []);
+
+  const startTimer = useCallback(() => {
+    clearInterval(timerRef.current);
+    timerRef.current = setInterval(() => {
+      goTo((current + 1) % slides.length);
+    }, 5000);
+  }, [current, goTo]);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setAnimating(true);
-      setTimeout(() => {
-        setCurrent((prev) => (prev + 1) % slides.length);
-        setAnimating(false);
-      }, 350);
-    }, 5000);
-    return () => clearInterval(timer);
-  }, []);
+    startTimer();
+    return () => clearInterval(timerRef.current);
+  }, [current]);
+
+  const handleDotClick = (i) => {
+    if (i === current) return;
+    clearInterval(timerRef.current);
+    goTo(i);
+  };
 
   const slide = slides[current];
 
@@ -92,15 +108,17 @@ const Hero = () => {
         {/* Orange dot accent */}
         <div className="hidden sm:block absolute right-8 sm:right-16 top-1/2 -translate-y-1/2 w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-orange-500 z-10" />
 
-        {/* Dot indicators only — no arrows, no counter */}
+        {/* Clickable dot indicators */}
         <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10">
           {slides.map((_, i) => (
-            <div
+            <button
               key={i}
+              onClick={() => handleDotClick(i)}
+              aria-label={`Go to slide ${i + 1}`}
               className={`rounded-full transition-all duration-300 ${
                 i === current
                   ? "w-6 h-2 sm:w-7 sm:h-2.5 bg-white"
-                  : "w-2 h-2 sm:w-2.5 sm:h-2.5 bg-white/40"
+                  : "w-2 h-2 sm:w-2.5 sm:h-2.5 bg-white/40 hover:bg-white/70 cursor-pointer"
               }`}
             />
           ))}
