@@ -5,6 +5,7 @@ import AboutBanner from "../Home/AboutBanner";
 import AboutDetails from "../Home/AboutDetails";
 import TravelExperience from "../Home/TravelExperience";
 import DestinationsRow from "../Home/DestinationsRow";
+import TourPackages from "../tours/TourPackages";
 import Testimonials from "../Home/Testimonials";
 import BlogSection from "../Home/BlogSection";
 import CallToAction from "../Home/CallToAction";
@@ -21,7 +22,8 @@ const HomePage = () => {
         <AboutBanner/>
         <AboutDetails/> 
         <TravelExperience/>
-        <DestinationsRow/>
+        {/* <DestinationsRow/> */}
+        <TourPackages />
         <Testimonials/>
         <BlogSection/>
         <CallToAction/>

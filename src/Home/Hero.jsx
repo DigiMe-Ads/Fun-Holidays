@@ -31,7 +31,7 @@ const slides = [
   },
   {
     id: 5,
-    image: "/images/home/hero.jpg",
+    image: "/images/home/hero-5.jpg",
     headline: "MICE & Corporate Travel",
     subtext:
       "Sri Lanka is Asia's rising MICE destination. Expert DMC services for meetings, incentive travel & conferences.",
