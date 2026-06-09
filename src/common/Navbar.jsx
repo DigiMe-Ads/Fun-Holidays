@@ -5,7 +5,7 @@ import { HiMenu, HiX } from "react-icons/hi";
 
 const navLinks = [
   { label: "Home", path: "/" },
-  { label: "Destinations", path: "/destinations" },
+  { label: "Fun Things To Do", path: "/destinations" },
   { label: "Tour Packages", path: "/tours" },
   { label: "Tailor Made", path: "/tailor-made" },
   { label: "MICE", path: "/mice" },

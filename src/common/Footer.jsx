@@ -146,7 +146,7 @@ const Footer = () => {
           loop
           muted
           playsInline
-          className="h-[120px] w-[150px]"
+          className="h-[120px] w-[120px]"
         >
           <source src="/logo3.webm" type="video/webm" />
           <source src="/logo3.mov" type="video/quicktime" />
