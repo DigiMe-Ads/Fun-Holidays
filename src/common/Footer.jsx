@@ -140,11 +140,17 @@ const Footer = () => {
 
       {/* Bottom Bar */}
       <div className="max-w-7xl mx-auto px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-        {/* Giant brand name */}
-        <h1 className="text-white font-black tracking-tight leading-none select-none"
-          style={{ fontSize: "clamp(3rem, 8vw, 6rem)" }}>
-          FUNHOLIDAYS
-        </h1>
+        {/* Brand logo */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="h-24 w-24"
+        >
+          <source src="/logo2.webm" type="video/webm" />
+          <source src="/logo2.mov" type="video/quicktime" />
+        </video>
 
         {/* Copyright */}
         <p className="text-gray-500 text-xs text-center sm:text-right whitespace-nowrap">

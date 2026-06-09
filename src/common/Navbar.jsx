@@ -28,7 +28,16 @@ const Navbar = () => {
             <FaPlane className="text-lg rotate-45" />
           </div>
           <span className="font-bold text-gray-900 text-lg">Fun Holidays</span> */}
-          <img src="/fun-holidays-logo.png" alt="Fun Holidays Logo" className="h-12 w-auto" />
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="h-20 w-auto"
+          >
+            <source src="/logo2.webm" type="video/webm" />
+            <source src="/logo2.mov" type="video/quicktime" />
+          </video>
         </Link>
 
         {/* Desktop Nav Links */}
