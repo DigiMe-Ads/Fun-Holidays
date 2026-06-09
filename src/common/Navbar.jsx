@@ -21,7 +21,7 @@ const Navbar = () => {
 
   return (
     <nav className="bg-white shadow-sm sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-2 py-3 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-1 py-0 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 shrink-0">
           {/* <div className="bg-orange-500 text-white p-2 rounded-lg">
@@ -33,10 +33,10 @@ const Navbar = () => {
             loop
             muted
             playsInline
-            className="h-[90px] w-[120px]"
+            className="h-[90px] w-[90px]"
           >
-            <source src="/logo2.webm" type="video/webm" />
-            <source src="/logo2.mov" type="video/quicktime" />
+            <source src="/logo3.webm" type="video/webm" />
+            <source src="/logo3.mov" type="video/quicktime" />
           </video>
         </Link>
 

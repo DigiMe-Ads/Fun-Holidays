@@ -148,8 +148,8 @@ const Footer = () => {
           playsInline
           className="h-[120px] w-[150px]"
         >
-          <source src="/logo2.webm" type="video/webm" />
-          <source src="/logo2.mov" type="video/quicktime" />
+          <source src="/logo3.webm" type="video/webm" />
+          <source src="/logo3.mov" type="video/quicktime" />
         </video>
 
         {/* Copyright */}
