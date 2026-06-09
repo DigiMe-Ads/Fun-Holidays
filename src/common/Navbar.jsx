@@ -33,7 +33,7 @@ const Navbar = () => {
             loop
             muted
             playsInline
-            className="h-20 w-auto"
+            className="h-[90px] w-[120px]"
           >
             <source src="/logo2.webm" type="video/webm" />
             <source src="/logo2.mov" type="video/quicktime" />
