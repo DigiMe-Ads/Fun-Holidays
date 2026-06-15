@@ -110,7 +110,7 @@ const MiceIntro = () => {
             }}
           >
             <img
-              src="/images/mice/hotel.jpg"
+              src="/images/hotels.jpg"
               alt="Colombo City"
               className="w-full h-full object-cover"
             />

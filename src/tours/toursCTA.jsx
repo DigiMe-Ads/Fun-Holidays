@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import useScrollReveal from "../hooks/useScrollReveal";
 
-const CommonCallToAction = () => {
+const ToursCTA = () => {
   const leftRef = useRef(null);
   const rightRef = useRef(null);
 
@@ -23,7 +23,7 @@ const CommonCallToAction = () => {
           }}
         >
           <img
-            src="/images/destination/beach/beach-3.jpg"
+            src="/images/destination/sunset-beach.jpg"
             alt="Adventure boat on river"
             className="w-full h-full object-cover"
           />
@@ -61,4 +61,4 @@ const CommonCallToAction = () => {
   );
 };
 
-export default CommonCallToAction;
+export default ToursCTA;

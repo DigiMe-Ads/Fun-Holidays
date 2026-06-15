@@ -79,7 +79,7 @@ const MiceClients = () => {
             Our Portfolio
           </span>
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mt-2">
-            MICE Clients We've Served
+            Some of our featured clients
           </h2>
           <p className="text-gray-500 text-sm mt-3 max-w-2xl mx-auto leading-relaxed">
             We have had the privilege of organizing successful MICE events for

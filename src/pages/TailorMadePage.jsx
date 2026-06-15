@@ -1,6 +1,7 @@
 import PageHero from "../common/PageHero";
 import TailorMakePage from "../tailor-made/TailorMadeSection";
 import CommonCallToAction from "../common/CommonCallToAction";
+import TailorCTA from "../tailor-made/TailorCTA";
 
 const TailorMadePage = () => {
   return (
@@ -14,7 +15,8 @@ const TailorMadePage = () => {
         ]}
         />
         <TailorMakePage />
-        <CommonCallToAction />
+        {/* <CommonCallToAction /> */}
+        <TailorCTA />
     </>
   );
 };

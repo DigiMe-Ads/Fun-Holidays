@@ -10,8 +10,8 @@ const hotels = [
   { name: "Taj Samudra", location: "Colombo", stars: 5 },
   { name: "Cinnamon Grand", location: "Colombo", stars: 5 },
   { name: "ITC Ratnadipa", location: "Colombo", stars: 5 },
-  { name: "Movenpick", location: "Colombo", stars: 5 },
-  { name: "OZO Colombo", location: "Colombo", stars: 4 },
+  { name: "NH Collection", location: "Colombo", stars: 5 },
+  // { name: "OZO Colombo", location: "Colombo", stars: 4 },
 ];
 
 const HotelCard = ({ name, location, stars, delay }) => {

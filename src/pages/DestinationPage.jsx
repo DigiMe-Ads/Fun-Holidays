@@ -8,7 +8,7 @@ const DestinationPage = () => {
     <>
       <PageHero
         title="Fun Things To Do"
-        image="/images/destination/hero.jpg"
+        image="/images/destination/related-mountain.jpg"
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Fun Things To Do" },

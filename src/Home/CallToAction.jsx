@@ -23,7 +23,7 @@ const CallToAction = () => {
           }}
         >
           <img
-            src="/images/home/cta-boat.jpg"
+            src="/images/mice/hotel.jpg"
             alt="Adventure boat on river"
             className="w-full h-full object-cover"
           />

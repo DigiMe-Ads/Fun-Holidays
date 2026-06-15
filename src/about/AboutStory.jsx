@@ -120,7 +120,7 @@ const AboutStory = () => {
             className="w-full lg:w-[280px] shrink-0 h-[420px] rounded-2xl overflow-hidden"
           >
             <img
-              src="/images/about/kandy.jpeg"
+              src="/images/destination/hero.jpg"
               alt="Sri Lanka scenic path"
               className="w-full h-full object-cover"
             />
@@ -223,7 +223,7 @@ const AboutStory = () => {
       </section>
 
       {/* ── Full-bleed video banner ───────────────────────────────── */}
-      <section
+      {/* <section
         ref={videoRef}
         style={{
           opacity: 0,
@@ -264,7 +264,7 @@ const AboutStory = () => {
             Unlimited Travel Experience
           </p>
         </div>
-      </section>
+      </section> */}
     </>
   );
 };

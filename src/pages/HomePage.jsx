@@ -10,13 +10,15 @@ import Testimonials from "../Home/Testimonials";
 import BlogSection from "../Home/BlogSection";
 import CallToAction from "../Home/CallToAction";
 import FeaturedCallouts from "../Home/FeaturedCallOuts";
+import MiceGallery from "../components/mice/MiceGallery";
+import MiceTestimonials from "../components/mice/MiceTestimonials";
 
 const HomePage = () => {
   return (
     <main>
       <div >
         <Hero/>
-        <StatsBar/>
+        {/* <StatsBar/> */}
         <FeaturedCallouts/>
         <DestinationsCollage/>
         <AboutBanner/>
@@ -24,7 +26,9 @@ const HomePage = () => {
         <TravelExperience/>
         {/* <DestinationsRow/> */}
         <TourPackages />
-        <Testimonials/>
+        <MiceGallery/>
+        <MiceTestimonials/>
+        {/* <Testimonials/> */}
         <BlogSection/>
         <CallToAction/>
       </div>

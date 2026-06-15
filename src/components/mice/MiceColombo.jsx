@@ -93,7 +93,7 @@ const MiceColombo = () => {
           }}
         >
           <img
-            src="/images/mice/port-city.jpg"
+            src="/images/colombo2.webp"
             alt="Colombo Skyline"
             className="w-full h-full object-cover"
           />

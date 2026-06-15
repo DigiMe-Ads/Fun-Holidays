@@ -3,6 +3,7 @@ import AboutStory from "../about/AboutStory";
 import TravelGuides from "../about/TravelGuide";
 import WhyChooseUs from "../about/WhyChooseUs";
 import CommonCallToAction from "../common/CommonCallToAction";
+import AboutCTA from "../about/AboutCTA";
 
 const AboutPage = () => {
   return (
@@ -18,7 +19,8 @@ const AboutPage = () => {
       <AboutStory />
       <TravelGuides />
         <WhyChooseUs />
-        <CommonCallToAction />
+        {/* <CommonCallToAction /> */}
+        <AboutCTA />
     </>
   );
 };

@@ -16,7 +16,7 @@ const BlogListPage = () => {
     <>
       <PageHero
         title="Blog"
-        image="/images/home/blog-aerial.jpg"
+        image="/images/destination/related-beach.jpg"
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Blog Details" },

@@ -7,6 +7,7 @@ import MiceClients from "../components/mice/MiceClients";
 import MiceGallery from "../components/mice/MiceGallery";
 import MiceTestimonials from "../components/mice/MiceTestimonials";
 import CommonCallToAction from "../common/CommonCallToAction";
+import MiceCTA from "../components/mice/MiceCTA";
 
 const MicePage = () => {
   return (
@@ -24,9 +25,10 @@ const MicePage = () => {
       <MiceHotels />
       <MiceAccess />
       <MiceClients />
-      <MiceGallery />
-      <MiceTestimonials />
-      <CommonCallToAction />
+      {/* <MiceGallery />
+      <MiceTestimonials /> */}
+      {/* <CommonCallToAction /> */}
+      <MiceCTA />
     </>
   );
 };

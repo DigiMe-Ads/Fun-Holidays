@@ -10,8 +10,8 @@ const TopBar = () => {
         {/* Welcome message */}
         <p className="text-gray-300 text-xs text-center sm:text-left">
           Welcome to{" "}
-          <span className="text-orange-500 font-semibold">Fun Holidays</span>{" "}
-          travel agency, need helps for travel guide{" "}
+          <span className="text-orange-500 font-semibold">Fun Holidays.</span>{" "}
+          Need help for travel guide{" "}
           <a href="#" className="underline font-semibold text-white">
             Let's Talk
           </a>
