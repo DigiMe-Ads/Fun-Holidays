@@ -10,7 +10,8 @@ export default {
         },
       },
       fontFamily: {
-        sans: ["Inter", "sans-serif"],
+        sans: ["Titillium Web", "sans-serif"],
+        display: ["Barlow Condensed", "sans-serif"],
       },
     },
   },
