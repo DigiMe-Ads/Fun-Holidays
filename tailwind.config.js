@@ -10,8 +10,8 @@ export default {
         },
       },
       fontFamily: {
-        sans: ["Kalam", "cursive"],
-        display: ["Pacifico", "cursive"],
+        sans: ['Titillium Web', 'sans-serif'],
+        display: ['Nouradilla', 'sans-serif'],
       },
     },
   },
