@@ -3,6 +3,15 @@ import { Link, useLocation } from "react-router-dom";
 import { FaSearch, FaPlane } from "react-icons/fa";
 import { HiMenu, HiX } from "react-icons/hi";
 
+// Safari (desktop & iOS) can't decode either of the logo video's codecs (webm/VP9
+// and mov/qtrle), which leaves the <video> showing a black box. Detect Safari and
+// fall back to the static logo image instead.
+const isSafari = (() => {
+  if (typeof navigator === "undefined") return false;
+  const ua = navigator.userAgent;
+  return /^((?!chrome|android|crios|fxios|edgios).)*safari/i.test(ua);
+})();
+
 const navLinks = [
   { label: "Home", path: "/" },
   { label: "Fun Things To Do", path: "/destinations" },
@@ -28,16 +37,24 @@ const Navbar = () => {
             <FaPlane className="text-lg rotate-45" />
           </div>
           <span className="font-bold text-gray-900 text-lg">Fun Holidays</span> */}
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="h-[90px] w-[90px]"
-          >
-            <source src="/logo3.webm" type="video/webm" />
-            <source src="/logo3.mov" type="video/quicktime" />
-          </video>
+          {isSafari ? (
+            <img
+              src="/fun-holidays-logo.png"
+              alt="Fun Holidays"
+              className="h-[90px] w-[90px] object-contain"
+            />
+          ) : (
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="h-[90px] w-[90px]"
+            >
+              <source src="/logo3.webm" type="video/webm" />
+              <source src="/logo3.mov" type="video/quicktime" />
+            </video>
+          )}
         </Link>
 
         {/* Desktop Nav Links */}
