@@ -1,11 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap');
 
 @font-face {
-  font-family: 'Nouradilla';
-  src: url('/fonts/Nouradilla.ttf') format('truetype');
+  font-family: 'Motion Picture';
+  src: url('/fonts/MotionPicture.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
+  size-adjust: 112%;
 }
 
 @tailwind base;
@@ -13,7 +14,7 @@
 @tailwind utilities;
 
 h1, h2 {
-  font-family: 'Nouradilla', "cursive";
+  font-family: 'Motion Picture', "cursive";
   font-weight: normal !important;
 }
 
