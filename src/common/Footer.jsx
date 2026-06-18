@@ -2,6 +2,7 @@ import { useRef } from "react";
 import useScrollReveal from "../hooks/useScrollReveal";
 import { FaChevronRight, FaChevronUp } from "react-icons/fa";
 import { MdLocationOn, MdEmail, MdPhone } from "react-icons/md";
+import { isSafari } from "../utils/browser";
 
 const services = ["Best Tour Guide", "Tour Booking", "Hotel Booking", "Ticket Booking"];
 const company = ["About Us", "Community", "Jobs Careers", "News Blog"];
@@ -141,16 +142,23 @@ const Footer = () => {
       {/* Bottom Bar */}
       <div className="max-w-7xl mx-auto px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
         {/* Brand logo */}
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="h-[120px] w-[120px]"
-        >
-          <source src="/logo3.webm" type="video/webm" />
-          <source src="/logo3.mov" type="video/quicktime" />
-        </video>
+        {isSafari ? (
+          <img
+            src="/fun-holidays-logo.png"
+            alt="Fun Holidays"
+            className="h-[120px] w-[120px] object-contain"
+          />
+        ) : (
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="h-[120px] w-[120px]"
+          >
+            <source src="/logo3.webm" type="video/webm" />
+          </video>
+        )}
 
         {/* Copyright */}
         <p className="text-gray-500 text-xs text-center sm:text-right whitespace-nowrap">
