@@ -101,7 +101,7 @@ const RelatedDestinations = () => {
         }}
         className="text-center mb-12"
       >
-        <h2 className="text-white text-3xl sm:text-4xl font-bold">
+        <h2 className="text-white text-5xl sm:text-6xl font-bold">
           Related Destinations
         </h2>
       </div>

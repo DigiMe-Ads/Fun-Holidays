@@ -43,7 +43,7 @@ const TravelExperience = () => {
 
         {/* Center Text */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 pb-32 sm:pb-40 lg:pb-48">
-          <h2 className="text-white text-2xl sm:text-3xl lg:text-4xl font-bold drop-shadow-lg mb-2 sm:mb-3">
+          <h2 className="text-white text-4xl sm:text-5xl lg:text-6xl font-bold drop-shadow-lg mb-2 sm:mb-3">
             Unlimited Travel Experience
           </h2>
           <p className="text-gray-200 text-xs sm:text-sm drop-shadow max-w-xs sm:max-w-none">

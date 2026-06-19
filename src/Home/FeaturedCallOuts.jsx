@@ -43,7 +43,7 @@ const FeaturedCallouts = () => {
               Featured Activity
             </span>
 
-            <h2 className="text-white text-xl sm:text-2xl font-extrabold leading-snug mb-3">
+            <h2 className="text-white text-3xl sm:text-4xl font-extrabold leading-snug mb-3">
               Kandy Perahera —{" "}
               <span className="text-orange-400">
                 Sri Lanka's Greatest Cultural Festival
@@ -95,7 +95,7 @@ const FeaturedCallouts = () => {
               Featured Tour Package
             </span>
 
-            <h2 className="text-white text-xl sm:text-2xl font-extrabold leading-snug mb-3">
+            <h2 className="text-white text-3xl sm:text-4xl font-extrabold leading-snug mb-3">
               7 Day Best of Sri Lanka Tour —{" "}
               <span className="text-orange-400">
                 The Classic Island Experience

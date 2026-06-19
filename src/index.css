@@ -9,12 +9,20 @@
   size-adjust: 112%;
 }
 
+@font-face {
+  font-family: 'Orange Lemonade';
+  src: url('/fonts/OrangeLemonade.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 h1, h2 {
-  font-family: 'Motion Picture', "cursive";
+  font-family: 'Orange Lemonade', "cursive";
   font-weight: normal !important;
 }
 

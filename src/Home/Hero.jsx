@@ -97,7 +97,7 @@ const Hero = () => {
             transition: "opacity 0.35s ease",
           }}
         >
-          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-normal leading-tight mb-2 sm:mb-3 text-white drop-shadow-md max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-normal leading-tight mb-2 sm:mb-3 text-white drop-shadow-md max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg">
             {slide.headline}
           </h1>
           <p className="text-xs sm:text-sm text-gray-200 leading-relaxed max-w-xs sm:max-w-sm">

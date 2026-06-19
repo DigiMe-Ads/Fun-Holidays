@@ -63,7 +63,7 @@ const MiceHotels = () => {
           <span className="text-orange-500 text-sm font-semibold uppercase tracking-widest">
             Accommodation
           </span>
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mt-2">
+          <h2 className="text-5xl sm:text-6xl font-bold text-gray-900 mt-2">
             International Hotel Brands
           </h2>
           <p className="text-gray-500 text-sm mt-3 max-w-2xl mx-auto leading-relaxed">

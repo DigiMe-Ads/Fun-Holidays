@@ -20,7 +20,7 @@ const AboutBanner = () => {
 
         {/* Heading */}
         <div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 leading-tight mb-4">
+          <h2 className="text-4xl sm:text-5xl font-extrabold text-gray-900 leading-tight mb-4">
             Passionate about your adventures with Fun Holidays
           </h2>
           <div className="inline-flex items-center bg-gray-100 rounded-full px-4 py-2">
@@ -57,7 +57,7 @@ const AboutBanner = () => {
 
         {/* Left: Text */}
         <div className="flex-1 pr-8">
-          <h2 className="text-4xl font-extrabold text-gray-900 leading-tight mb-5">
+          <h2 className="text-6xl font-extrabold text-gray-900 leading-tight mb-5">
             Passionate about <br />
             your adventures <br />
             with Fun Holidays

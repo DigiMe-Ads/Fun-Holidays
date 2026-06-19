@@ -15,7 +15,7 @@ const PageHero = ({ title, breadcrumbs, image }) => {
 
       {/* Text — bottom left */}
       <div className="absolute bottom-10 left-8 sm:left-14">
-        <h1 className="text-white text-3xl sm:text-4xl font-semibold mb-2 drop-shadow">
+        <h1 className="text-white text-5xl sm:text-6xl font-semibold mb-2 drop-shadow">
           {title}
         </h1>
 

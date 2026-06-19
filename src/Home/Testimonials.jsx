@@ -64,7 +64,7 @@ const Testimonials = () => {
       >
         {/* Heading */}
         <div className="text-center mb-10 sm:mb-14">
-          <h2 className="text-white text-2xl sm:text-3xl lg:text-4xl font-bold mb-2 sm:mb-3">
+          <h2 className="text-white text-4xl sm:text-5xl lg:text-6xl font-bold mb-2 sm:mb-3">
             100k+ Customer Say Us
           </h2>
           <p className="text-gray-400 text-xs sm:text-sm">

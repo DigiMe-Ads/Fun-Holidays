@@ -643,7 +643,7 @@ const TourDetailPage = () => {
           <p className="text-orange-500 text-sm font-semibold mb-1">
             {data.subtitle}
           </p>
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-900">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900">
             {data.tagline}
           </h1>
         </div>
@@ -658,7 +658,7 @@ const TourDetailPage = () => {
               ref={overviewRef}
               style={{ opacity: 0, transform: "translateY(24px)", transition: "opacity 0.6s ease, transform 0.6s ease" }}
             >
-              <h2 className="text-gray-900 font-bold text-lg mb-4 pb-2 border-b border-gray-100">
+              <h2 className="text-gray-900 font-bold text-2xl mb-4 pb-2 border-b border-gray-100">
                 Overview
               </h2>
               <div className="flex flex-col gap-3">
@@ -675,7 +675,7 @@ const TourDetailPage = () => {
               ref={highlightsRef}
               style={{ opacity: 0, transform: "translateY(24px)", transition: "opacity 0.6s ease, transform 0.6s ease" }}
             >
-              <h2 className="text-gray-900 font-bold text-lg mb-4 pb-2 border-b border-gray-100">
+              <h2 className="text-gray-900 font-bold text-2xl mb-4 pb-2 border-b border-gray-100">
                 Tour Highlights
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -694,7 +694,7 @@ const TourDetailPage = () => {
               className="grid grid-cols-1 sm:grid-cols-2 gap-6"
             >
               <div>
-                <h2 className="text-gray-900 font-bold text-lg mb-4 pb-2 border-b border-gray-100">
+                <h2 className="text-gray-900 font-bold text-2xl mb-4 pb-2 border-b border-gray-100">
                   Includes
                 </h2>
                 <div className="flex flex-col gap-2">
@@ -707,7 +707,7 @@ const TourDetailPage = () => {
                 </div>
               </div>
               <div>
-                <h2 className="text-gray-900 font-bold text-lg mb-4 pb-2 border-b border-gray-100">
+                <h2 className="text-gray-900 font-bold text-2xl mb-4 pb-2 border-b border-gray-100">
                   Excludes
                 </h2>
                 <div className="flex flex-col gap-2">
@@ -726,7 +726,7 @@ const TourDetailPage = () => {
               ref={itineraryRef}
               style={{ opacity: 0, transform: "translateY(24px)", transition: "opacity 0.6s ease, transform 0.6s ease" }}
             >
-              <h2 className="text-gray-900 font-bold text-lg mb-6 pb-2 border-b border-gray-100">
+              <h2 className="text-gray-900 font-bold text-2xl mb-6 pb-2 border-b border-gray-100">
                 Day-by-Day Itinerary
               </h2>
               <div className="flex flex-col gap-0">

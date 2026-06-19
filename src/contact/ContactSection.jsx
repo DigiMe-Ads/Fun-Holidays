@@ -71,7 +71,7 @@ const ContactSection = () => {
           className="flex-1"
         >
           {/* Heading */}
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 leading-snug mb-3">
+          <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 leading-snug mb-3">
             Start Your Adventure <br /> Contact Us Today
           </h2>
           <p className="text-gray-400 text-sm leading-relaxed mb-8 max-w-xs">

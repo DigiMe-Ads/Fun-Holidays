@@ -39,7 +39,7 @@ const TailorCTA = () => {
             transition: "opacity 0.7s ease, transform 0.7s ease",
           }}
         >
-          <h2 className="text-white text-3xl sm:text-4xl font-bold leading-tight">
+          <h2 className="text-white text-5xl sm:text-6xl font-bold leading-tight">
             Adventure is Calling – <br className="hidden sm:block" />
             Are You Ready?
           </h2>

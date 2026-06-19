@@ -323,7 +323,7 @@ const DestinationDetailPage = () => {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10">
         {/* Heading */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 leading-tight">
+          <h1 className="text-5xl sm:text-6xl font-extrabold text-gray-900 leading-tight">
             {data.title} <br /> {data.subtitle}
           </h1>
         </div>
@@ -377,7 +377,7 @@ const DestinationDetailPage = () => {
             }}
             className="flex-1"
           >
-            <h2 className="text-gray-900 font-bold text-lg mb-3">Overview</h2>
+            <h2 className="text-gray-900 font-bold text-2xl mb-3">Overview</h2>
             <div className="flex flex-col gap-3 mb-8">
               {data.overview.map((para, i) => (
                 <p key={i} className="text-gray-500 text-sm leading-relaxed">
@@ -386,7 +386,7 @@ const DestinationDetailPage = () => {
               ))}
             </div>
 
-            <h2 className="text-gray-900 font-bold text-lg mb-3">
+            <h2 className="text-gray-900 font-bold text-2xl mb-3">
               Top-highlight
             </h2>
             <ul className="flex flex-col gap-2">

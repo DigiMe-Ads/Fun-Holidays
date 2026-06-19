@@ -296,7 +296,7 @@ const ActivityDialog = ({ item, onClose }) => {
           </p>
           <h2
             className="font-bold leading-snug mb-4"
-            style={{ color: "#ffffff", fontSize: "20px" }}
+            style={{ color: "#ffffff", fontSize: "28px" }}
           >
             {item.title}
           </h2>

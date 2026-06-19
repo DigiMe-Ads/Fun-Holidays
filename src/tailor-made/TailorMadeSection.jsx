@@ -69,7 +69,7 @@ const TailorMakePage = () => {
           >
             {/* Heading */}
             <div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 leading-snug mb-4">
+              <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-900 leading-snug mb-4">
                 Tailor Made Sri Lanka Holidays —{" "}
                 <span className="text-orange-500">
                   Your Perfect Trip, Built Around You
@@ -162,7 +162,7 @@ const TailorMakePage = () => {
             className="w-full lg:w-[480px] shrink-0"
           >
             <div className="border border-gray-200 rounded-2xl p-6 sm:p-8">
-              <h2 className="text-gray-900 font-bold text-lg mb-1">
+              <h2 className="text-gray-900 font-bold text-2xl mb-1">
                 Start Planning Your Holiday
               </h2>
               <p className="text-gray-400 text-xs mb-6">

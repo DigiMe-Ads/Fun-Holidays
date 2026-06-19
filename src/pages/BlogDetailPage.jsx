@@ -51,7 +51,7 @@ const BlogDetailPage = () => {
             </div>
 
             {/* Title */}
-            <h1 className="text-xl sm:text-2xl font-bold text-gray-900 leading-snug mb-3">
+            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 leading-snug mb-3">
               {blog.title}
             </h1>
 
@@ -80,7 +80,7 @@ const BlogDetailPage = () => {
             {blog.content.map((block, i) => (
               <div key={i} className="mb-6">
                 {block.heading && (
-                  <h2 className="text-gray-900 font-bold text-base sm:text-lg mb-3">
+                  <h2 className="text-gray-900 font-bold text-xl sm:text-2xl mb-3">
                     {block.heading}
                   </h2>
                 )}

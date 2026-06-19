@@ -125,7 +125,7 @@ const TourPackages = () => {
         }}
         className="text-center mb-10"
       >
-        <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-2">
+        <h2 className="text-5xl sm:text-6xl font-extrabold text-gray-900 mb-2">
           Tour Packages
         </h2>
         <p className="text-gray-400 text-sm">

@@ -22,7 +22,7 @@ const StatsBar = () => {
         {/* Left: Stats */}
         <div className="flex flex-row lg:flex-col items-center lg:items-start gap-6 lg:gap-3 min-w-0 lg:min-w-[160px] w-full lg:w-auto">
           <div>
-            <h2 className="text-white text-3xl sm:text-4xl font-extrabold">10m+</h2>
+            <h2 className="text-white text-5xl sm:text-6xl font-extrabold">10m+</h2>
             <p className="text-gray-400 text-xs sm:text-sm mt-1">
               Trusted clients / happy clients
             </p>

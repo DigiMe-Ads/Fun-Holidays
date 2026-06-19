@@ -11,7 +11,7 @@ export default {
       },
       fontFamily: {
         sans: ['Titillium Web', 'sans-serif'],
-        display: ['Motion Picture', 'sans-serif'],
+        display: ['Orange Lemonade', 'sans-serif'],
       },
     },
   },

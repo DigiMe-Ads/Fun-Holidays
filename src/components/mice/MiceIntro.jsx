@@ -70,7 +70,7 @@ const MiceIntro = () => {
               <span className="text-orange-500 text-sm font-semibold uppercase tracking-widest">
                 MICE & Destination Weddings
               </span>
-              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mt-2 mb-4 leading-tight">
+              <h2 className="text-5xl sm:text-6xl font-bold text-gray-900 mt-2 mb-4 leading-tight">
                 Sri Lanka — Your Premier
                 <br />
                 MICE Destination

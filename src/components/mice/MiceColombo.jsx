@@ -67,7 +67,7 @@ const MiceColombo = () => {
           <span className="text-orange-500 text-sm font-semibold uppercase tracking-widest">
             Infrastructure & Facilities
           </span>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mt-2">
+          <h2 className="text-5xl sm:text-6xl font-bold text-white mt-2">
             The New Colombo
           </h2>
           <p className="text-gray-400 text-sm mt-3 max-w-2xl mx-auto leading-relaxed">

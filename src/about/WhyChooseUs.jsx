@@ -83,7 +83,7 @@ const WhyChooseUs = () => {
           }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl sm:text-4xl font-semibold text-gray-900">
+          <h2 className="text-5xl sm:text-6xl font-semibold text-gray-900">
             People Why Choose Us
           </h2>
         </div>

@@ -49,7 +49,7 @@ const BlogListPage = () => {
                 </div>
 
                 {/* Title */}
-                <h2 className="text-gray-900 font-bold text-lg sm:text-xl leading-snug mb-3 group-hover:text-orange-500 transition-colors">
+                <h2 className="text-gray-900 font-bold text-2xl sm:text-3xl leading-snug mb-3 group-hover:text-orange-500 transition-colors">
                   {blog.title}
                 </h2>
 

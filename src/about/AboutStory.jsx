@@ -55,7 +55,7 @@ const AboutStory = () => {
             }}
             className="flex-1"
           >
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 leading-snug mb-6">
+            <h2 className="text-4xl sm:text-5xl font-extrabold text-gray-900 leading-snug mb-6">
               Passionate About Your <br />
               Adventures With{" "}
               <span className="text-orange-500">Fun Holidays</span>
