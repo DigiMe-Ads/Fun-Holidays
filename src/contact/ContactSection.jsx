@@ -14,7 +14,7 @@ const contactDetails = [
     id: 2,
     icon: FaPhone,
     title: "Call Us",
-    lines: ["+94 114 320 315", "Available 24/7 hours"],
+    lines: ["+94 32 225 0903", "Available 24/7 hours"],
   },
   {
     id: 3,
@@ -26,7 +26,7 @@ const contactDetails = [
     id: 4,
     icon: MdLocationOn,
     title: "Sri Lanka Office",
-    lines: ["Colombo", "Sri Lanka"],
+    lines: ["25, Chilaw Road, Marawila", "61210, Sri Lanka"],
   },
 ];
 

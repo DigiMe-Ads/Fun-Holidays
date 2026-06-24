@@ -89,7 +89,7 @@ const Footer = () => {
             <li className="flex items-start gap-3">
               <MdLocationOn className="text-gray-400 text-lg mt-0.5 shrink-0" />
               <span className="text-gray-400 text-sm leading-relaxed">
-                #271 Stanley Thilakeratne Mw, Nugegoda,<br />  Colombo, Sri Lanka 
+                25, Chilaw Road, Marawila,<br />  61210, Sri Lanka
               </span>
             </li>
             <li className="flex items-center gap-3">
@@ -104,10 +104,10 @@ const Footer = () => {
             <li className="flex items-center gap-3">
               <MdPhone className="text-gray-400 text-lg shrink-0" />
               <a
-                href="tel:+88012334588"
+                href="tel:+94322250903"
                 className="text-gray-400 text-sm hover:text-orange-500 transition-colors"
               >
-                +94 114 320 315
+                +94 32 225 0903
               </a>
             </li>
           </ul>

@@ -112,7 +112,7 @@ const TailorMakePage = () => {
                 Prefer to Talk to Us?
               </h3>
               <a
-                href="tel:+94114320315"
+                href="tel:+94322250903"
                 className="flex items-center gap-3 group"
               >
                 <div className="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center shrink-0 group-hover:bg-orange-500 transition-colors">
@@ -121,7 +121,7 @@ const TailorMakePage = () => {
                 <div>
                   <p className="text-gray-400 text-xs">Call Us</p>
                   <p className="text-gray-800 font-semibold text-sm">
-                    +94 114 320 315
+                    +94 32 225 0903
                   </p>
                 </div>
               </a>

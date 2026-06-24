@@ -3,14 +3,14 @@ import { FaPlane, FaMapMarkerAlt, FaPassport } from "react-icons/fa";
 import useScrollReveal from "../../hooks/useScrollReveal";
 
 const routes = [
-  { city: "Mumbai", time: "~2.5 hrs", flag: "🇮🇳" },
-  { city: "Delhi", time: "~3 hrs", flag: "🇮🇳" },
-  { city: "Dubai", time: "~4 hrs", flag: "🇦🇪" },
-  { city: "Singapore", time: "~3.5 hrs", flag: "🇸🇬" },
-  { city: "Bangkok", time: "~3 hrs", flag: "🇹🇭" },
-  { city: "Kuala Lumpur", time: "~3 hrs", flag: "🇲🇾" },
-  { city: "Paris", time: "~10 hrs", flag: "🇫🇷" },
-  { city: "London", time: "~11 hrs", flag: "🇬🇧" },
+  { city: "Mumbai", time: "~2.5 hrs", countryCode: "in" },
+  { city: "Delhi", time: "~3 hrs", countryCode: "in" },
+  { city: "Dubai", time: "~4 hrs", countryCode: "ae" },
+  { city: "Singapore", time: "~3.5 hrs", countryCode: "sg" },
+  { city: "Bangkok", time: "~3 hrs", countryCode: "th" },
+  { city: "Kuala Lumpur", time: "~3 hrs", countryCode: "my" },
+  { city: "Paris", time: "~10 hrs", countryCode: "fr" },
+  { city: "London", time: "~11 hrs", countryCode: "gb" },
 ];
 
 const AccessPoint = ({ icon, title, desc }) => (
@@ -102,7 +102,9 @@ const MiceAccess = () => {
                   key={i}
                   className="bg-white rounded-xl px-4 py-3 flex items-center gap-3 shadow-sm"
                 >
-                  <span className="text-2xl">{r.flag}</span>
+                  <span
+                    className={`fi fi-${r.countryCode} rounded text-2xl`}
+                  ></span>
                   <div>
                     <p className="text-gray-900 font-medium text-sm">{r.city}</p>
                     <p className="text-gray-400 text-xs">{r.time}</p>
