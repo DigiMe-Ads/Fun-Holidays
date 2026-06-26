@@ -1,9 +1,10 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import useScrollReveal from "../hooks/useScrollReveal";
 import { FaChevronRight, FaChevronUp } from "react-icons/fa";
 import { MdLocationOn, MdEmail, MdPhone } from "react-icons/md";
 import { isSafari } from "../utils/browser";
+import { submitToWeb3Forms } from "../utils/web3forms";
 
 const services = [
   { label: "Best Tour Guide", path: "/tours" },
@@ -29,6 +30,30 @@ const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 const Footer = () => {
   const topRef = useRef(null);
   useScrollReveal(topRef, 100);
+
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [isSubscribing, setIsSubscribing] = useState(false);
+  const [subscribeStatus, setSubscribeStatus] = useState(null);
+
+  const handleNewsletterSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubscribing(true);
+    setSubscribeStatus(null);
+    try {
+      await submitToWeb3Forms({
+        subject: "New Newsletter Subscription",
+        from_name: "Newsletter Subscriber",
+        email: newsletterEmail,
+        message: `New newsletter subscription request from ${newsletterEmail}`,
+      });
+      setSubscribeStatus({ type: "success", text: "Subscribed! Thank you." });
+      setNewsletterEmail("");
+    } catch (err) {
+      setSubscribeStatus({ type: "error", text: err.message || "Subscription failed. Try again." });
+    } finally {
+      setIsSubscribing(false);
+    }
+  };
 
   return (
     <footer className="bg-[#141414] w-full py-20">
@@ -138,16 +163,32 @@ const Footer = () => {
             Stay connected & never miss a deal! subscribe to our newsletter and
             get travel offers
           </p>
-          <div className="flex items-center gap-2 mt-1">
+          <form onSubmit={handleNewsletterSubmit} className="flex items-center gap-2 mt-1">
             <input
               type="email"
+              required
+              value={newsletterEmail}
+              onChange={(e) => setNewsletterEmail(e.target.value)}
               placeholder="Email Address"
               className="flex-1 bg-transparent border border-gray-600 text-gray-300 text-xs rounded-lg px-3 py-2.5 outline-none placeholder-gray-600 focus:border-orange-500 transition-colors min-w-0"
             />
-            <button className="bg-white hover:bg-gray-200 transition-colors text-gray-900 font-semibold text-xs px-4 py-2.5 rounded-lg whitespace-nowrap">
-              Subscribe
+            <button
+              type="submit"
+              disabled={isSubscribing}
+              className="bg-white hover:bg-gray-200 transition-colors text-gray-900 font-semibold text-xs px-4 py-2.5 rounded-lg whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              {isSubscribing ? "Subscribing..." : "Subscribe"}
             </button>
-          </div>
+          </form>
+          {subscribeStatus && (
+            <p
+              className={`text-xs font-medium ${
+                subscribeStatus.type === "success" ? "text-green-500" : "text-red-400"
+              }`}
+            >
+              {subscribeStatus.text}
+            </p>
+          )}
         </div>
 
       </div>

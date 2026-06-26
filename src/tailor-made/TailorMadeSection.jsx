@@ -3,6 +3,7 @@ import useScrollReveal from "../hooks/useScrollReveal";
 import PageHero from "../common/PageHero";
 import { MdEmail, MdPhone } from "react-icons/md";
 import { FaCheck } from "react-icons/fa";
+import { submitToWeb3Forms } from "../utils/web3forms";
 
 const highlights = [
   "Professional English-speaking guide throughout",
@@ -33,17 +34,33 @@ const TailorMakePage = () => {
     requirements: "",
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [statusMessage, setStatusMessage] = useState(null);
+
   const handleChange = (e) =>
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Thank you! We will respond to your enquiry within 24 hours.");
-    setForm({
-      name: "", email: "", phone: "", address: "", country: "",
-      adults: "", children: "", infants: "", arrivalDate: "",
-      nights: "", requirements: "",
-    });
+    setIsSubmitting(true);
+    setStatusMessage(null);
+    try {
+      await submitToWeb3Forms({
+        subject: "New Tailor Made Holiday Enquiry",
+        from_name: form.name,
+        ...form,
+      });
+      setStatusMessage({ type: "success", text: "Thank you! We will respond to your enquiry within 24 hours." });
+      setForm({
+        name: "", email: "", phone: "", address: "", country: "",
+        adults: "", children: "", infants: "", arrivalDate: "",
+        nights: "", requirements: "",
+      });
+    } catch (err) {
+      setStatusMessage({ type: "error", text: err.message || "Something went wrong. Please try again." });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const inputClass =
@@ -325,10 +342,21 @@ const TailorMakePage = () => {
                 {/* Submit */}
                 <button
                   type="submit"
-                  className="w-full bg-orange-500 hover:bg-orange-600 transition-colors text-white font-bold text-sm py-4 rounded-xl mt-1"
+                  disabled={isSubmitting}
+                  className="w-full bg-orange-500 hover:bg-orange-600 transition-colors text-white font-bold text-sm py-4 rounded-xl mt-1 disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  Submit Enquiry
+                  {isSubmitting ? "Submitting..." : "Submit Enquiry"}
                 </button>
+
+                {statusMessage && (
+                  <p
+                    className={`text-xs text-center font-medium ${
+                      statusMessage.type === "success" ? "text-green-600" : "text-red-500"
+                    }`}
+                  >
+                    {statusMessage.text}
+                  </p>
+                )}
 
                 <p className="text-gray-400 text-xs text-center">
                   We respond to all enquiries within 24 hours. Your details are

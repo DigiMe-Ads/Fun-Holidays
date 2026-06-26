@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import useScrollReveal from "../hooks/useScrollReveal";
 import { MdEmail, MdAccessTime, MdLocationOn } from "react-icons/md";
 import { FaPhone } from "react-icons/fa";
+import { submitToWeb3Forms } from "../utils/web3forms";
 
 const contactDetails = [
   {
@@ -46,14 +47,32 @@ const ContactSection = () => {
     subject: "",
     comments: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [statusMessage, setStatusMessage] = useState(null);
 
   const handleChange = (e) =>
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Message sent! We'll get back to you soon.");
-    setForm({ fullName: "", phone: "", email: "", subject: "", comments: "" });
+    setIsSubmitting(true);
+    setStatusMessage(null);
+    try {
+      await submitToWeb3Forms({
+        subject: `New Contact Message: ${form.subject || "General Enquiry"}`,
+        from_name: form.fullName,
+        name: form.fullName,
+        phone: form.phone,
+        email: form.email,
+        message: form.comments,
+      });
+      setStatusMessage({ type: "success", text: "Message sent! We'll get back to you soon." });
+      setForm({ fullName: "", phone: "", email: "", subject: "", comments: "" });
+    } catch (err) {
+      setStatusMessage({ type: "error", text: err.message || "Something went wrong. Please try again." });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -189,10 +208,21 @@ const ContactSection = () => {
               {/* Submit */}
               <button
                 type="submit"
-                className="bg-orange-500 hover:bg-orange-600 transition-colors text-white font-semibold text-xs px-6 py-3 rounded-lg w-fit"
+                disabled={isSubmitting}
+                className="bg-orange-500 hover:bg-orange-600 transition-colors text-white font-semibold text-xs px-6 py-3 rounded-lg w-fit disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                Send Your Reviews
+                {isSubmitting ? "Sending..." : "Send Your Reviews"}
               </button>
+
+              {statusMessage && (
+                <p
+                  className={`text-xs font-medium ${
+                    statusMessage.type === "success" ? "text-green-600" : "text-red-500"
+                  }`}
+                >
+                  {statusMessage.text}
+                </p>
+              )}
             </form>
           </div>
         </div>
@@ -210,7 +240,7 @@ const ContactSection = () => {
       >
         <iframe
           title="Fun Holidays Location"
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3152.0!2d144.9631!3d-37.8136!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDQ4JzQ5LjAiUyAxNDTCsDU3JzQ3LjIiRQ!5e0!3m2!1sen!2slk!4v1600000000000!5m2!1sen!2slk"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d435.99735534013485!2d79.83002261527092!3d7.414481259111233!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae2c402132a2dcb%3A0x689889c92c9d2518!2s61210%20Chilaw%20-%20Colombo%20Main%20Rd%2C%20Marawila!5e0!3m2!1sen!2slk!4v1782459585658!5m2!1sen!2slk"
           width="100%"
           height="100%"
           style={{ border: 0 }}

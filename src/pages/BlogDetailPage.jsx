@@ -1,9 +1,10 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import PageHero from "../common/PageHero";
 import useScrollReveal from "../hooks/useScrollReveal";
 import { blogs, categories, tags } from "../data/blogData";
 import { FaChevronRight, FaSearch, FaFacebook, FaTwitter, FaLinkedin, FaInstagram } from "react-icons/fa";
+import { submitToWeb3Forms } from "../utils/web3forms";
 
 const BlogDetailPage = () => {
   const { slug } = useParams();
@@ -13,6 +14,34 @@ const BlogDetailPage = () => {
   const sidebarRef = useRef(null);
   useScrollReveal(contentRef, 100);
   useScrollReveal(sidebarRef, 200);
+
+  const [commentForm, setCommentForm] = useState({ name: "", email: "", comment: "" });
+  const [isSubmittingComment, setIsSubmittingComment] = useState(false);
+  const [commentStatus, setCommentStatus] = useState(null);
+
+  const handleCommentChange = (e) =>
+    setCommentForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+
+  const handleCommentSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmittingComment(true);
+    setCommentStatus(null);
+    try {
+      await submitToWeb3Forms({
+        subject: `New Blog Comment on "${blog?.title || slug}"`,
+        from_name: commentForm.name,
+        name: commentForm.name,
+        email: commentForm.email,
+        message: commentForm.comment,
+      });
+      setCommentStatus({ type: "success", text: "Comment sent! It will be reviewed shortly." });
+      setCommentForm({ name: "", email: "", comment: "" });
+    } catch (err) {
+      setCommentStatus({ type: "error", text: err.message || "Something went wrong. Please try again." });
+    } finally {
+      setIsSubmittingComment(false);
+    }
+  };
 
   if (!blog) {
     return (
@@ -113,7 +142,7 @@ const BlogDetailPage = () => {
             </div>
 
             {/* Tags + Share */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 py-5 border-t border-b border-gray-100 mb-8">
+            {/* <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 py-5 border-t border-b border-gray-100 mb-8">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="text-gray-500 text-xs font-semibold">Tags:</span>
                 {blog.tags.map((tag, i) => (
@@ -130,10 +159,10 @@ const BlogDetailPage = () => {
                   </button>
                 ))}
               </div>
-            </div>
+            </div> */}
 
             {/* Author card */}
-            <div className="bg-[#1a1a1a] rounded-2xl p-5 sm:p-6 flex gap-4 mb-10">
+            {/* <div className="bg-[#1a1a1a] rounded-2xl p-5 sm:p-6 flex gap-4 mb-10">
               <div className="w-14 h-14 rounded-full overflow-hidden shrink-0 border-2 border-orange-500">
                 <img
                   src="https://randomuser.me/api/portraits/men/32.jpg"
@@ -155,7 +184,7 @@ const BlogDetailPage = () => {
                   ))}
                 </div>
               </div>
-            </div>
+            </div> */}
 
             {/* Related Posts */}
             <div className="mb-10">
@@ -182,7 +211,7 @@ const BlogDetailPage = () => {
             </div>
 
             {/* Comments */}
-            <div className="mb-10">
+            {/* <div className="mb-10">
               <h3 className="text-gray-900 font-bold text-base mb-5">Comments</h3>
               <div className="flex flex-col gap-5">
                 {[
@@ -205,7 +234,7 @@ const BlogDetailPage = () => {
                   </div>
                 ))}
               </div>
-            </div>
+            </div> */}
 
             {/* Leave a comment form */}
             <div>
@@ -213,24 +242,56 @@ const BlogDetailPage = () => {
               <p className="text-gray-400 text-xs mb-5">
                 Your email address will not be published. Required fields are marked *
               </p>
-              <div className="flex flex-col gap-3">
+              <form onSubmit={handleCommentSubmit} className="flex flex-col gap-3">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <input placeholder="Name" className="border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-700 outline-none focus:border-orange-400 transition-colors placeholder-gray-300" />
-                  <input placeholder="Email" className="border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-700 outline-none focus:border-orange-400 transition-colors placeholder-gray-300" />
+                  <input
+                    name="name"
+                    value={commentForm.name}
+                    onChange={handleCommentChange}
+                    placeholder="Name"
+                    required
+                    className="border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-700 outline-none focus:border-orange-400 transition-colors placeholder-gray-300"
+                  />
+                  <input
+                    name="email"
+                    type="email"
+                    value={commentForm.email}
+                    onChange={handleCommentChange}
+                    placeholder="Email"
+                    required
+                    className="border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-700 outline-none focus:border-orange-400 transition-colors placeholder-gray-300"
+                  />
                 </div>
                 <textarea
+                  name="comment"
+                  value={commentForm.comment}
+                  onChange={handleCommentChange}
                   placeholder="Write comment"
                   rows={5}
+                  required
                   className="border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-700 outline-none focus:border-orange-400 transition-colors placeholder-gray-300 resize-none"
                 />
                 <label className="flex items-center gap-2 text-xs text-gray-400 cursor-pointer">
                   <input type="checkbox" className="accent-orange-500" />
                   Save my name, email, and website in this browser for the next time I comment.
                 </label>
-                <button className="bg-orange-500 hover:bg-orange-600 transition-colors text-white font-semibold text-sm px-8 py-3 rounded-xl w-fit">
-                  Send Your Comment
+                <button
+                  type="submit"
+                  disabled={isSubmittingComment}
+                  className="bg-orange-500 hover:bg-orange-600 transition-colors text-white font-semibold text-sm px-8 py-3 rounded-xl w-fit disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  {isSubmittingComment ? "Sending..." : "Send Your Comment"}
                 </button>
-              </div>
+                {commentStatus && (
+                  <p
+                    className={`text-xs font-medium ${
+                      commentStatus.type === "success" ? "text-green-600" : "text-red-500"
+                    }`}
+                  >
+                    {commentStatus.text}
+                  </p>
+                )}
+              </form>
             </div>
           </div>
 

@@ -12,7 +12,7 @@ const TopBar = () => {
           Welcome to{" "}
           <span className="text-orange-500 font-semibold">Fun Holidays.</span>{" "}
           Need help for travel guide{" "}
-          <a href="#" className="underline font-semibold text-white">
+          <a href="/contact" className="underline font-semibold text-white">
             Let's Talk
           </a>
         </p>

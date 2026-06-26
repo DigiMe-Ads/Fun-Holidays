@@ -69,18 +69,18 @@ const Navbar = () => {
         {/* Right: Search + Book Now */}
         <div className="hidden lg:flex items-center gap-4">
           {/* Search */}
-          <div className="flex items-center border border-gray-200 rounded-full px-3 py-1.5 gap-2 bg-gray-50">
+          {/* <div className="flex items-center border border-gray-200 rounded-full px-3 py-1.5 gap-2 bg-gray-50">
             <FaSearch className="text-gray-400 text-sm" />
             <input
               type="text"
               placeholder="Search"
               className="bg-transparent outline-none text-sm text-gray-700 w-28 placeholder-gray-400"
             />
-          </div>
+          </div> */}
 
           {/* Book Now Button */}
           <Link
-            to="/book"
+            to="/contact"
             className="bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold px-6 py-2.5 rounded-lg transition-colors duration-200 whitespace-nowrap"
           >
             Book Now
