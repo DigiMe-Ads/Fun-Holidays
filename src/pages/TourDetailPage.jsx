@@ -9,6 +9,7 @@ const tourData = {
     title: "Golden Beach Tour",
     subtitle: "4 Nights / 5 Days",
     heroImage: "/images/tours/golden-beach.jpg",
+    thumbnailImage: "/images/tours/beach-tour2.jpg",
     tagline: "Sri Lanka's Best Beaches in 5 Days",
     keyword: "beach holidays Sri Lanka",
     overview: [
@@ -105,6 +106,7 @@ const tourData = {
     title: "Best of Sri Lanka Tour",
     subtitle: "6 Nights / 7 Days",
     heroImage: "/images/tours/best-sri-lanka.jpg",
+    thumbnailImage  : "/images/tours/tour-elephants.webp",
     tagline: "The Complete 7-Day Sri Lanka Holiday",
     keyword: "Sri Lanka 7 day tour itinerary",
     overview: [
@@ -222,6 +224,7 @@ const tourData = {
     title: "Amazing Sri Lanka Tour",
     subtitle: "6 Nights / 7 Days",
     heroImage: "/images/tours/amazing-sri-lanka.jpg",
+    thumbnailImage: "/images/destination/kandy/kandy-perehara-2.jpg",
     tagline: "Discover Asia's Most Extraordinary Hidden Destinations",
     keyword: "hidden holiday destinations Asia",
     overview: [
@@ -340,6 +343,7 @@ const tourData = {
     title: "Culture & Heritage Tour",
     subtitle: "7 Nights / 8 Days",
     heroImage: "/images/tours/culture-heritage.jpg",
+    thumbnailImage: "/images/tours/ancient-tour.webp",
     tagline: "2,000 Years of History in 8 Days",
     keyword: "Sri Lanka culture and heritage tour",
     overview: [
@@ -464,6 +468,7 @@ const tourData = {
     title: "Honeymoon Tour",
     subtitle: "8 Nights / 9 Days",
     heroImage: "/images/tours/honeymoon.jpg",
+    thumbnailImage: "/images/tours/honeymoon3.jpg",
     tagline: "Begin Your Forever on Asia's Most Romantic Island",
     keyword: "honeymoon in Sri Lanka",
     overview: [
@@ -629,7 +634,7 @@ const TourDetailPage = () => {
     <>
       <PageHero
         title={data.title}
-        image={data.heroImage}
+        image={data.thumbnailImage}
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Tour Packages", href: "/tours" },
@@ -788,15 +793,15 @@ const TourDetailPage = () => {
                   {data.subtitle} · Expert guided · All inclusive
                 </p>
 
-                <div className="flex items-end justify-between border-t border-gray-100 pt-4">
-                  <div>
+                <div className="flex items-center justify-center border-t border-gray-100 pt-4">
+                  {/* <div>
                     <p className="text-gray-400 text-xs mb-1">Per Child</p>
                     <p className="text-gray-900 text-2xl font-bold">
                       ${data.price.child}
                     </p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-gray-400 text-xs mb-1">Per Adult</p>
+                  </div> */}
+                  <div className="flex flex-col items-center">
+                    <p className="text-gray-400 text-xs mb-1">Starting From</p>
                     <p className="text-gray-900 text-2xl font-bold">
                       ${data.price.adult}
                     </p>
@@ -810,7 +815,7 @@ const TourDetailPage = () => {
                   Book Now
                 </Link>
                 <Link
-                  to="/contact"
+                  to="/tailor-made"
                   className="w-full border border-gray-200 hover:border-orange-400 transition-colors text-gray-700 font-semibold text-sm py-3 rounded-xl text-center"
                 >
                   Tailor Make This Package
@@ -832,8 +837,8 @@ const TourDetailPage = () => {
                   { label: "Duration", value: data.subtitle },
                   { label: "Type", value: "Guided Group / Private" },
                   { label: "Difficulty", value: "Easy to Moderate" },
-                  { label: "Departure", value: "Daily, Year Round" },
-                  { label: "Language", value: "English" },
+                  // { label: "Departure", value: "Daily, Year Round" },
+                  { label: "Language", value: "Multilingual" },
                 ].map((info, i) => (
                   <div
                     key={i}

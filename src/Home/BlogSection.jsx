@@ -50,7 +50,7 @@ const BlogSection = () => {
     <section className="w-full px-4 sm:px-6 py-14">
       <div ref={headingRef} style={{ opacity: 0, transform: "translateY(20px)", transition: "opacity 0.6s ease, transform 0.6s ease" }} className="text-center mb-10">
         <h2 className="text-5xl sm:text-6xl font-extrabold text-gray-900">
-          Read Our Latest News & Blog
+          Read Our Latest  News and Blog
         </h2>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

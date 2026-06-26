@@ -1,9 +1,11 @@
 import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import useScrollReveal from "../hooks/useScrollReveal";
 
 const ToursCTA = () => {
   const leftRef = useRef(null);
   const rightRef = useRef(null);
+  const navigate = useNavigate();
 
   useScrollReveal(leftRef, 100);
   useScrollReveal(rightRef, 250);
@@ -50,8 +52,11 @@ const ToursCTA = () => {
           </p>
 
           <div>
-            <button className="mt-2 bg-orange-500 hover:bg-orange-600 transition-colors text-white font-semibold text-sm px-8 py-3 rounded-lg">
-              Explore Our Tours
+            <button
+              onClick={() => navigate("/about")}
+              className="mt-2 bg-orange-500 hover:bg-orange-600 transition-colors text-white font-semibold text-sm px-8 py-3 rounded-lg"
+            >
+              About Us
             </button>
           </div>
         </div>

@@ -1,6 +1,8 @@
 import { FaCheck } from "react-icons/fa";
 import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import useScrollReveal from "../hooks/useScrollReveal";
+
 
 const features = [
   "Destination Search & Filters",
@@ -13,6 +15,7 @@ const features = [
 
 const AboutDetails = () => {
   const ref = useRef(null);
+  const navigate = useNavigate();
   useScrollReveal(ref, 0);
 
   return (
@@ -57,8 +60,11 @@ const AboutDetails = () => {
           </div>
 
           {/* CTA Button */}
-          <button className="bg-orange-500 hover:bg-orange-600 transition-colors text-white font-semibold text-sm px-8 py-3 rounded-lg w-full sm:w-auto">
-            Learn More Us
+          <button
+            onClick={() => navigate("/about")}
+            className="bg-orange-500 hover:bg-orange-600 transition-colors text-white font-semibold text-sm px-8 py-3 rounded-lg w-full sm:w-auto"
+          >
+            About Us
           </button>
         </div>
 

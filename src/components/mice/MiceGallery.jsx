@@ -66,7 +66,7 @@ const MiceGallery = () => {
             Moments
           </span>
           <h2 className="text-5xl sm:text-6xl font-bold text-gray-900 mt-2">
-            Groups & Families on Tour
+            Groups and Families on Tour
           </h2>
           <p className="text-gray-500 text-sm mt-3 max-w-2xl mx-auto leading-relaxed">
             Real memories, real smiles — from corporate teams to family

@@ -8,7 +8,7 @@ const contactDetails = [
     id: 1,
     icon: MdEmail,
     title: "Email Us",
-    lines: ["supportreavio@gmail.com", "www.Funholidays.com"],
+    lines: ["info@funholidays.lk", "www.funholidays.lk"],
   },
   {
     id: 2,
@@ -20,7 +20,7 @@ const contactDetails = [
     id: 3,
     icon: MdAccessTime,
     title: "Working Hours",
-    lines: ["Sunday to Friday", "08:00 AM – 06:00 PM"],
+    lines: ["Monday to Saturday", "09:00 AM – 06:00 PM"],
   },
   {
     id: 4,

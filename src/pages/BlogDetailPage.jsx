@@ -300,7 +300,10 @@ const BlogDetailPage = () => {
               <div className="absolute inset-0 bg-black/50" />
               <div className="absolute bottom-5 left-5 right-5">
                 <p className="text-white font-bold text-base mb-3">Best Tourist Place</p>
-                <button className="bg-orange-500 hover:bg-orange-600 text-white text-xs font-semibold px-5 py-2 rounded-lg transition-colors">
+                <button
+                  onClick={() => navigate("/tours")}
+                  className="bg-orange-500 hover:bg-orange-600 text-white text-xs font-semibold px-5 py-2 rounded-lg transition-colors"
+                >
                   Explore Tours
                 </button>
               </div>

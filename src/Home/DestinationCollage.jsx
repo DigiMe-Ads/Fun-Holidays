@@ -124,7 +124,7 @@ const allSlides = [
       id: 13,
       title: "Snorkelling & Diving",
       subtitle: "Trincomalee · Hikkaduwa · Bar Reef",
-      image: "/images/home/Diving.jpg",
+      image: "/images/destination/snorkling.jpg",
       description:
         "Crystal-clear waters, vibrant coral reefs, and abundant marine life. From colourful reef fish and sea turtles to whale sharks and stingrays. Top spots include Pigeon Island in Trincomalee and Hikkaduwa Marine National Park.",
       meta: "Nov–Apr (west/south) · May–Sep (east) · All levels",
@@ -142,7 +142,7 @@ const allSlides = [
       id: 15,
       title: "Ride Around the Country",
       subtitle: "Cultural Triangle · Hill Country · Coast",
-      image: "/images/home/Ride.jpg",
+      image: "/images/destination/bicycle.jpg",
       description:
         "Sri Lanka is a perfect cycling and motorbike destination. Cycle through tea estates, ride the coastal road between Galle and Mirissa, or explore the ancient Cultural Triangle by bike. Adventure travel at its most free.",
       meta: "Year-round · 1 day to multi-week · All levels",
@@ -182,7 +182,7 @@ const allSlides = [
       id: 19,
       title: "Team Building & Outbound Training",
       subtitle: "Corporate Groups",
-      image: "/images/home/Outbound.jpg",
+      image: "/images/destination/hiking.jpg",
       description:
         "Sri Lanka is one of Asia's most popular destinations for corporate team building and outbound training programmes. The island's extraordinary natural environments — jungle rivers, ancient ruins, national parks, and pristine beaches — provide a unique backdrop for activities that build trust, strengthen communication, and create lasting bonds between team members. From whitewater rafting challenges and wildlife safari team days to cooking competitions and cultural immersion experiences, Fun Holidays designs corporate team building programmes that people actually enjoy — and remember.",
       meta: "Best for: Corporate groups 10–200 people · Duration: 1–3 days · Location: Kitulgala, Kandy, Colombo",
@@ -191,7 +191,7 @@ const allSlides = [
       id: 20,
       title: "Cricket",
       subtitle: "Sri Lanka's National Passion",
-      image: "/images/home/Cricket.jpg",
+      image: "/images/destination/cricket.jpg",
       description:
         "Cricket is more than a sport in Sri Lanka — it is the heartbeat of the nation. The island that produced legends like Muttiah Muralitharan, Sanath Jayasuriya, and Aravinda de Silva still plays the game with extraordinary passion and skill at every level. Fun Holidays can organise your cricket tour of Sri Lanka, arrange match tickets for international fixtures at the R. Premadasa Stadium in Colombo, or connect you with local club games where you can experience the genuine spirit of Sri Lankan cricket up close.",
       meta: "Best for: Cricket lovers, sports groups · Available: Year-round · Venues: Colombo, Kandy, Pallekele",

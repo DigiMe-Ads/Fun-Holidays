@@ -29,12 +29,12 @@ const TopBar = () => {
 
           {/* Email — icon only on mobile, full on sm+ */}
           <a
-            href="mailto:support@gmail.com"
+            href="mailto:info@funholidays.lk"
             className="flex items-center gap-1 text-gray-300 hover:text-white transition"
           >
             <MdEmail className="text-orange-500 shrink-0" />
             <span className="hidden sm:inline text-xs">
-              Email : support@gmail.com
+              Email : info@funholidays.lk
             </span>
           </a>
 

@@ -96,7 +96,7 @@ const FeaturedCallouts = () => {
             </span>
 
             <h2 className="text-white text-3xl sm:text-4xl font-extrabold leading-snug mb-3">
-              7 Day Best of Sri Lanka Tour —{" "}
+              Best of Sri Lanka Tour —{" "}
               <span className="text-orange-400">
                 The Classic Island Experience
               </span>

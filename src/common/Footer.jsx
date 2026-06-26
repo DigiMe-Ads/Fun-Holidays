@@ -1,12 +1,28 @@
 import { useRef } from "react";
+import { Link } from "react-router-dom";
 import useScrollReveal from "../hooks/useScrollReveal";
 import { FaChevronRight, FaChevronUp } from "react-icons/fa";
 import { MdLocationOn, MdEmail, MdPhone } from "react-icons/md";
 import { isSafari } from "../utils/browser";
 
-const services = ["Best Tour Guide", "Tour Booking", "Hotel Booking", "Ticket Booking"];
-const company = ["About Us", "Community", "Jobs Careers", "News Blog"];
-const destinations = ["African Safaris", "Alaska & Canada", "South America", "Middle East"];
+const services = [
+  { label: "Best Tour Guide", path: "/tours" },
+  { label: "Tour Booking", path: "/tours" },
+  { label: "Hotel Booking", path: "/tours" },
+  { label: "Ticket Booking", path: "/tours" },
+];
+const company = [
+  { label: "About Us", path: "/about" },
+  { label: "Community", path: "/about" },
+  { label: "MICE", path: "/mice" },
+  { label: "News Blog", path: "/blog" },
+];
+const destinations = [
+  { label: "Minneriya", path: "/destination/the-elephant-gathering" },
+  { label: "Yala", path: "/destination/into-the-wild" },
+  { label: "Hikkaduwa", path: "/destination/witness-dolphins-whales" },
+  { label: "Kandy", path: "/destination/the-kandy-perahera" },
+];
 
 const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
@@ -33,14 +49,14 @@ const Footer = () => {
           <h4 className="text-white font-bold text-base">Services</h4>
           <ul className="flex flex-col gap-8">
             {services.map((item) => (
-              <li key={item}>
-                <a
-                  href="#"
+              <li key={item.label}>
+                <Link
+                  to={item.path}
                   className="flex items-center gap-2 text-gray-400 text-sm hover:text-orange-500 transition-colors"
                 >
                   <FaChevronRight className="text-[10px] shrink-0" />
-                  {item}
-                </a>
+                  {item.label}
+                </Link>
               </li>
             ))}
           </ul>
@@ -51,14 +67,14 @@ const Footer = () => {
           <h4 className="text-white font-bold text-base">Company</h4>
           <ul className="flex flex-col gap-8">
             {company.map((item) => (
-              <li key={item}>
-                <a
-                  href="#"
+              <li key={item.label}>
+                <Link
+                  to={item.path}
                   className="flex items-center gap-2 text-gray-400 text-sm hover:text-orange-500 transition-colors"
                 >
                   <FaChevronRight className="text-[10px] shrink-0" />
-                  {item}
-                </a>
+                  {item.label}
+                </Link>
               </li>
             ))}
           </ul>
@@ -69,14 +85,14 @@ const Footer = () => {
           <h4 className="text-white font-bold text-base">Destinations</h4>
           <ul className="flex flex-col gap-8">
             {destinations.map((item) => (
-              <li key={item}>
-                <a
-                  href="#"
+              <li key={item.label}>
+                <Link
+                  to={item.path}
                   className="flex items-center gap-2 text-gray-400 text-sm hover:text-orange-500 transition-colors"
                 >
                   <FaChevronRight className="text-[10px] shrink-0" />
-                  {item}
-                </a>
+                  {item.label}
+                </Link>
               </li>
             ))}
           </ul>
