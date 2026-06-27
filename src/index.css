@@ -36,3 +36,22 @@ h3, h4, h5, h6 {
   padding: 0;
   box-sizing: border-box;
 }
+
+/* Google Translate widget — hide stock UI, we drive it with a custom dropdown */
+.goog-te-banner-frame,
+.goog-te-gadget-icon {
+  display: none !important;
+}
+
+body {
+  top: 0 !important;
+}
+
+.goog-text-highlight {
+  background: none !important;
+  box-shadow: none !important;
+}
+
+#google_translate_element {
+  display: none !important;
+}

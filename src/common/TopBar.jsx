@@ -1,6 +1,6 @@
 import { MdEmail } from "react-icons/md";
-import { FaPhone, FaGlobe } from "react-icons/fa";
-import { IoChevronDown } from "react-icons/io5";
+import { FaPhone } from "react-icons/fa";
+import GoogleTranslate from "./GoogleTranslate";
 
 const TopBar = () => {
   return (
@@ -21,11 +21,7 @@ const TopBar = () => {
         <div className="flex items-center gap-3 sm:gap-6">
 
           {/* Language — hidden on xs, shown sm+ */}
-          <button className="hidden sm:flex items-center gap-1 text-gray-300 hover:text-white transition">
-            <FaGlobe className="text-orange-500" />
-            <span className="text-xs">English</span>
-            <IoChevronDown className="text-xs" />
-          </button>
+          <GoogleTranslate />
 
           {/* Email — icon only on mobile, full on sm+ */}
           <a
