@@ -793,26 +793,26 @@ const TourDetailPage = () => {
                   {data.subtitle} · Expert guided · All inclusive
                 </p>
 
-                <div className="flex items-center justify-center border-t border-gray-100 pt-4">
-                  {/* <div>
+                {/* <div className="flex items-center justify-center border-t border-gray-100 pt-4">
+                  <div>
                     <p className="text-gray-400 text-xs mb-1">Per Child</p>
                     <p className="text-gray-900 text-2xl font-bold">
                       ${data.price.child}
                     </p>
-                  </div> */}
+                  </div>
                   <div className="flex flex-col items-center">
                     <p className="text-gray-400 text-xs mb-1">Starting From</p>
                     <p className="text-gray-900 text-2xl font-bold">
                       ${data.price.adult}
                     </p>
                   </div>
-                </div>
+                </div> */}
 
                 <Link
                   to="/contact"
                   className="w-full bg-orange-500 hover:bg-orange-600 transition-colors text-white font-semibold text-sm py-3 rounded-xl text-center"
                 >
-                  Book Now
+                  Contact Us For a Quote
                 </Link>
                 <Link
                   to="/tailor-made"
@@ -820,12 +820,12 @@ const TourDetailPage = () => {
                 >
                   Tailor Make This Package
                 </Link>
-                <p className="text-gray-400 text-xs text-center">
+                {/* <p className="text-gray-400 text-xs text-center">
                   Need some help?{" "}
                   <Link to="/contact" className="text-orange-500 underline">
                     Contact Us
                   </Link>
-                </p>
+                </p> */}
               </div>
 
               {/* Quick info card */}
