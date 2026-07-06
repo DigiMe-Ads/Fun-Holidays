@@ -84,7 +84,7 @@ const allSlides = [
       id: 9,
       title: "Whitewater Rafting",
       subtitle: "Kitulgala · Kelani River",
-      image: "/images/destination/rafting/raft-5.jpg",
+      image: "/images/rafting.jpg",
       description:
         "The Kelani River near Kitulgala offers Grade 3–4 rapids through lush rainforest — School Master, Killer Falls, and The Destroyer. Also the filming location of the Oscar-winning 'Bridge on the River Kwai'.",
       meta: "Year-round · Half day · Moderate–Challenging",
@@ -133,7 +133,7 @@ const allSlides = [
       id: 14,
       title: "Cave Exploration — Dambulla & Beyond",
       subtitle: "Dambulla · UNESCO Heritage",
-      image: "/images/home/Cave.jpg",
+      image: "/images/cave.jpg",
       description:
         "The magnificent Dambulla Cave Temple — a UNESCO World Heritage Site with 157 Buddha statues and ancient paintings. Cave exploration in Sri Lanka combines archaeology, natural history, and genuine adventure in equal measure.",
       meta: "Year-round · Half day · Dambulla",
@@ -160,7 +160,7 @@ const allSlides = [
       id: 17,
       title: "Cook Your Own Sri Lankan Curry",
       subtitle: "With a Local Family",
-      image: "/images/home/Cook.jpg",
+      image: "/images/rice.jpg",
       description:
         "Learn to cook an authentic Sri Lankan meal alongside a local family — grinding fresh spices, tempering coconut milk, preparing a full rice-and-curry spread. One of the most authentic holiday experiences we offer.",
       meta: "Year-round · 2–3 hours · All ages, families, couples",
