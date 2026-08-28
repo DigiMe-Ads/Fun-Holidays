@@ -117,7 +117,10 @@ const TourDetailPage = () => {
           <p className="text-orange-500 text-sm font-semibold mb-1">
             {subtitle}
           </p>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900">
+          <h1
+            className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900"
+            style={{ fontFamily: "'Titillium Web', sans-serif", fontWeight: 800 }}
+          >
             {data.tagline}
           </h1>
         </div>

@@ -4,8 +4,13 @@
  */
 import { useState } from "react";
 import { db } from "../../firebase/config";
-import { setDoc, doc, serverTimestamp } from "firebase/firestore";
+import { setDoc, getDoc, doc, serverTimestamp } from "firebase/firestore";
 import { blogs } from "../../data/blogData";
+
+/** Returns true if a URL points to Firebase Storage (not a local /images/ path) */
+function isStorageUrl(url) {
+  return typeof url === "string" && url.startsWith("https://firebasestorage");
+}
 
 // ── Hardcoded tour data (merged list + detail) ────────────────────────────
 const TOURS = [
@@ -158,15 +163,249 @@ const TOURS = [
 
 // ── Destinations ──────────────────────────────────────────────────────────
 const DESTINATIONS = [
-  { slug: "the-kandy-perahera", title: "The Kandy Perahera", subtitle: "Sri Lanka's Most Spectacular Festival", heroImage: "/images/destination/kandy-perahera-hero.jpg", thumbnail: "/images/destination/kandy-perahera.jpg", gallery: [], overview: ["The Kandy Esala Perahera is one of Asia's oldest and most spectacular festivals, performed without interruption for over 400 years. The pageant features elaborately decorated elephants, Kandyan dancers, fire performers, and whip crackers — all processing through the streets of Kandy over 10 nights."], highlights: ["400+ years of unbroken tradition","Dozens of adorned elephants","Kandyan dancers and fire performers","Held annually in July/August"], toChild: 150, toAdult: 250, published: true },
-  { slug: "the-elephant-gathering", title: "The Elephant Gathering", subtitle: "World's Largest Wild Elephant Congregation", heroImage: "/images/destination/elephant-gathering-hero.jpg", thumbnail: "/images/destination/elephant-gathering.jpg", gallery: [], overview: ["Each year, between August and October, hundreds of wild elephants gather at Minneriya National Park in one of the greatest wildlife spectacles on earth. Up to 400 elephants converge around the receding Minneriya Tank to graze, socialise, play, and bathe."], highlights: ["Up to 400 wild elephants in one place","Best viewed August to October","Minneriya National Park jeep safari","Unforgettable photographic opportunity"], toChild: 120, toAdult: 220, published: true },
-  { slug: "into-the-wild", title: "Into the Wild", subtitle: "Sri Lanka's Premier Safari Experience", heroImage: "/images/destination/into-the-wild-hero.jpg", thumbnail: "/images/destination/into-the-wild.jpg", gallery: [], overview: ["Sri Lanka's national parks — Yala, Udawalawe, Wilpattu, Minneriya, and Wasgamuwa — offer some of the finest wildlife encounters in Asia. Yala National Park has the world's highest density of leopards, while Udawalawe is famed for its large resident elephant herds."], highlights: ["Yala National Park leopard safari","Udawalawe elephant herds","Wilpattu — Sri Lanka's largest park","Half and full day safari options"], toChild: 150, toAdult: 280, published: true },
-  { slug: "witness-dolphins-whales", title: "Witness Dolphins & Whales", subtitle: "Blue Whales Off Sri Lanka's Coast", heroImage: "/images/destination/dolphins-whales-hero.jpg", thumbnail: "/images/destination/dolphins-whales.jpg", gallery: [], overview: ["Sri Lanka's south coast, particularly around Mirissa, offers world-class blue whale and dolphin watching from November to April. Blue whales — the largest animals on earth — surface regularly in these waters, often within sight of the shore."], highlights: ["Blue whales — largest animals on earth","Spinner dolphin pods","Best season: November to April","Mirissa whale watching tours"], toChild: 100, toAdult: 180, published: true },
-  { slug: "sun-and-fun", title: "Sun & Fun", subtitle: "Sri Lanka's Finest Beach Experiences", heroImage: "/images/destination/sun-fun-hero.jpg", thumbnail: "/images/destination/sun-fun.jpg", gallery: [], overview: ["Sri Lanka's coastline stretches for over 1,600 kilometres of beaches ranging from the golden sands of the west and south to the pristine lagoons of the east. From Negombo to Mirissa, Unawatuna to Passikudah, each beach has its own distinct character."], highlights: ["West coast: Negombo, Marawila, Kalutara","South coast: Unawatuna, Mirissa, Weligama","East coast: Passikudah, Arugam Bay","Water sports at multiple locations"], toChild: 80, toAdult: 150, published: true },
-  { slug: "nature-trails-trekking", title: "Nature Trails & Trekking", subtitle: "Trek Sri Lanka's Highlands and Forests", heroImage: "/images/destination/trekking-hero.jpg", thumbnail: "/images/destination/trekking.jpg", gallery: [], overview: ["Sri Lanka's highlands offer some of the finest trekking in Asia, from the misty peaks of Horton Plains to the lush forests of the Knuckles Range and the dramatic landscapes around Ella. The Knuckles Mountain Range, a UNESCO World Heritage Site, features cloud forest trails, waterfalls, and extraordinary biodiversity."], highlights: ["Horton Plains — World's End viewpoint","Knuckles Mountain Range (UNESCO)","Little Adam's Peak, Ella","Sinharaja Rainforest trails"], toChild: 100, toAdult: 200, published: true },
-  { slug: "surfing-the-coast", title: "Surfing the Coast", subtitle: "World-Class Surf at Arugam Bay", heroImage: "/images/destination/surfing-hero.jpg", thumbnail: "/images/destination/surfing.jpg", gallery: [], overview: ["Arugam Bay on Sri Lanka's east coast is one of the top surf destinations in Asia, consistently ranked in lists of the world's best surf spots. The main point break at Arugam Bay works best from May to October, when the Indian Ocean swell produces long, consistent right-handers."], highlights: ["Arugam Bay — world top-10 surf spot","Hikkaduwa west coast surf","Weligama beginner-friendly waves","Surf schools and board rentals available"], toChild: 100, toAdult: 180, published: true },
-  { slug: "whitewater-rafting", title: "Whitewater Rafting", subtitle: "Kitulgala Rafting on the Kelani River", heroImage: "/images/destination/rafting-hero.jpg", thumbnail: "/images/destination/rafting.jpg", gallery: [], overview: ["Kitulgala, nestled in the lush rainforest of the Sabaragamuwa Province, is Sri Lanka's premier whitewater rafting destination. The Kelani River here offers an exhilarating 8-kilometre rafting run with Grade 3-4 rapids."], highlights: ["Grade 3-4 rapids on Kelani River","Professional guides and safety equipment","Combined with jungle trekking","Optional: waterfall abseiling nearby"], toChild: 80, toAdult: 150, published: true },
-  { slug: "bird-watching", title: "Bird Watching", subtitle: "Sri Lanka's 400+ Bird Species", heroImage: "/images/destination/birdwatching-hero.jpg", thumbnail: "/images/destination/birdwatching.jpg", gallery: [], overview: ["Sri Lanka is one of Asia's premier birdwatching destinations, with over 400 recorded bird species including 33 endemics found nowhere else on earth. From the endemic Sri Lanka Blue Magpie to the colourful Malabar Pied Hornbill, the island's birdlife is extraordinary."], highlights: ["33 endemic bird species","Sinharaja Rainforest — best endemic site","Bundala National Park — migratory birds","Knuckles Range highland species"], toChild: 80, toAdult: 150, published: true },
+  {
+    slug: "the-kandy-perahera",
+    title: "The Kandy Perahera",
+    subtitle: "Sri Lanka's Most Spectacular Festival",
+    heroImage: "/images/destination/kandy-perahera-hero.jpg",
+    thumbnail: "/images/destination/kandy-perahera.jpg",
+    gallery: [],
+    overview: [
+      "The Kandy Esala Perahera is one of Asia's oldest and most spectacular religious festivals, performed without interruption in the city of Kandy for over 400 years. Held each year over 10 consecutive nights in July or August, it draws hundreds of thousands of visitors and is listed as a UNESCO Intangible Cultural Heritage of Humanity.",
+      "The pageant features dozens of magnificently decorated elephants, Kandyan dancers, fire performers, and whip crackers — all processing through the historic streets of Kandy in a river of light, colour, and sound that is unlike anything else in the world.",
+    ],
+    highlights: [
+      "400+ years of unbroken tradition",
+      "Dozens of elaborately adorned elephants",
+      "Traditional Kandyan dancers and fire performers",
+      "Sacred Tooth Relic procession — Sri Lanka's holiest artifact",
+      "Held annually in July / August over 10 nights",
+      "Grandstand seating arranged by Fun Holidays",
+    ],
+    article: [
+      { heading: "What is the Kandy Perahera?", body: "The Esala Perahera is Sri Lanka's most dazzling religious festival — a grand procession that has been performed without interruption in the city of Kandy for over 400 years. Held each year over 10 consecutive nights in July or August, it is one of the longest-running living pageants in Asia and a UNESCO Intangible Cultural Heritage of Humanity." },
+      { heading: "What to Expect on the Night", body: "Each evening the streets of Kandy transform into a river of light and colour. Dozens of magnificently decorated elephants — adorned with LED-lit costumes, gilded tusks, and flashing headpieces — parade through the city. Kandyan dancers in elaborate red and gold costumes perform traditional routines, while fire performers, whip crackers, and torch bearers create an atmosphere of pure spectacle." },
+      { heading: "The Sacred Tooth Relic", body: "At the heart of the festival is the Golden Casket said to contain the Sacred Tooth Relic of the Lord Buddha, housed in Kandy's Temple of the Tooth. The relic — Sri Lanka's most venerated Buddhist artifact — is paraded through the city on the back of the Maligawa Tusker, the most prestigious elephant in the procession." },
+      { heading: "Tips for Attending", body: "Tickets are sold in tiers — grandstand seats directly on the route offer the best views and should be booked well in advance. The final night (Randoli Perahera) is the most spectacular and the most crowded. Smart, respectful dress is appreciated as this is a deeply religious occasion. Fun Holidays arranges comfortable grandstand seating and hotel transfers as part of our Perahera experience packages." },
+    ],
+    toChild: 150, toAdult: 250, showPrice: true, published: true,
+  },
+  {
+    slug: "the-elephant-gathering",
+    title: "The Elephant Gathering",
+    subtitle: "World's Largest Wild Elephant Congregation",
+    heroImage: "/images/destination/elephant-gathering-hero.jpg",
+    thumbnail: "/images/destination/elephant-gathering.jpg",
+    gallery: [],
+    overview: [
+      "Each year between August and October, hundreds of wild Asian elephants gather in and around Minneriya National Park in one of the greatest wildlife spectacles on earth. Known as \"The Gathering\", this extraordinary natural event draws wildlife photographers and nature lovers from around the globe.",
+      "Up to 400 elephants converge around the receding Minneriya Tank — an ancient man-made reservoir — to graze on the lush seasonal grassland and drink from the shallower waters. It is entirely wild, entirely natural, and utterly unforgettable.",
+    ],
+    highlights: [
+      "Up to 400 wild elephants in one place",
+      "Best viewed August to October",
+      "Minneriya National Park open jeep safari",
+      "Combine with Sigiriya and Dambulla nearby",
+      "Unforgettable photographic opportunity",
+      "World's largest temporary Asian elephant congregation",
+    ],
+    article: [
+      { heading: "The World's Greatest Wildlife Spectacle", body: "Each year between August and October, hundreds of wild Asian elephants gather in and around Minneriya National Park in Sri Lanka's North Central Province — forming the world's largest temporary congregation of Asian elephants. This extraordinary event draws wildlife photographers and nature lovers from around the globe." },
+      { heading: "Why Do They Gather?", body: "As Sri Lanka's dry season peaks, the ancient Minneriya Tank — a vast reservoir dating from the 3rd century — begins to recede, exposing rich grasslands along its banks. Elephants from across the surrounding forest converge to graze on the lush new grass and drink from the shallower waters. At peak season, up to 400 wild elephants may gather in a single afternoon." },
+      { heading: "What You Will See", body: "The Gathering is far more than numbers. Watch elephant families interact, young bulls engage in playful sparring, mothers guard their calves in the water, and entire herds splash and play as the sun sets behind the ancient tank. These are fully wild animals behaving naturally in their own habitat — not domesticated elephants, not a performance." },
+      { heading: "Planning Your Visit", body: "The Gathering is best experienced from an open-sided jeep with a knowledgeable naturalist guide. The peak period is September, when elephant numbers are typically highest. Mornings and late afternoons offer the best light for photography. Fun Holidays combines the Elephant Gathering with visits to Sigiriya Rock Fortress and Dambulla Cave Temple for a complete Cultural Triangle experience." },
+    ],
+    toChild: 120, toAdult: 220, showPrice: true, published: true,
+  },
+  {
+    slug: "into-the-wild",
+    title: "Into the Wild",
+    subtitle: "Sri Lanka's Premier Safari Experience",
+    heroImage: "/images/destination/into-the-wild-hero.jpg",
+    thumbnail: "/images/destination/into-the-wild.jpg",
+    gallery: [],
+    overview: [
+      "Despite being one of Asia's smallest countries, Sri Lanka packs an extraordinary density of wildlife into its 26 national parks and nature reserves. The island is one of the world's biodiversity hotspots, earning that status through its remarkable concentration of endemic species and varied habitats.",
+      "From Yala's leopards to Udawalawe's elephant herds and Wilpattu's undisturbed wilderness, each of Sri Lanka's national parks offers a genuinely different safari experience. Fun Holidays arranges half-day and full-day safaris with expert naturalist guides.",
+    ],
+    highlights: [
+      "Yala National Park — world's highest leopard density",
+      "Udawalawe — 500+ resident wild elephants",
+      "Wilpattu — Sri Lanka's largest, most pristine park",
+      "Minneriya & Wasgamuwa for the Elephant Gathering",
+      "Half and full-day safari options",
+      "Expert naturalist guides in open jeeps",
+    ],
+    article: [
+      { heading: "Yala — Sri Lanka's Most Famous Park", body: "Yala National Park in the island's deep south is the most visited of Sri Lanka's parks — and for good reason. Yala has the world's highest density of leopards, with Block 1 of the park offering excellent leopard sightings year-round. The park also hosts large populations of elephants, sloth bears, crocodiles, water buffalo, and hundreds of bird species. Afternoon safaris typically offer the best wildlife sightings." },
+      { heading: "Udawalawe — Sri Lanka's Best Elephant Park", body: "For elephant lovers, Udawalawe National Park is unrivalled. Located around the Udawalawe Reservoir on the border of Sabaragamuwa and Uva provinces, this open grassland park is home to a resident population of over 500 wild elephants. Unlike Yala, where elephants move through dense forest, Udawalawe offers clear, open views of herds at close range — making it ideal for photography and families." },
+      { heading: "Wilpattu — Sri Lanka's Largest Wilderness", body: "Wilpattu in Sri Lanka's north-west is the largest and arguably most pristine of the island's national parks. Characterised by its unique 'Villus' — natural lake-like basins filled with rainwater — Wilpattu is famous for leopard sightings and offers a genuine wilderness experience far removed from the crowds of Yala. Because it re-opened only after the end of the civil war in 2009, its wildlife populations have remained virtually undisturbed." },
+      { heading: "Planning Your Safari", body: "All Fun Holidays safaris use comfortable, open-sided 4WD jeeps with professional naturalist guides who know the parks intimately. We recommend combining Yala with a south coast beach stay, or pairing Minneriya with the Cultural Triangle sites of Sigiriya and Dambulla. Early morning and late afternoon game drives offer the best wildlife activity and the most comfortable temperatures." },
+    ],
+    toChild: 150, toAdult: 280, showPrice: true, published: true,
+  },
+  {
+    slug: "witness-dolphins-whales",
+    title: "Witness Dolphins & Whales",
+    subtitle: "Blue Whales Off Sri Lanka's Coast",
+    heroImage: "/images/destination/dolphins-whales-hero.jpg",
+    thumbnail: "/images/destination/dolphins-whales.jpg",
+    gallery: [],
+    overview: [
+      "Sri Lanka's south coast, particularly around Mirissa, offers world-class blue whale and dolphin watching from November to April. Blue whales — the largest animals ever to have lived on earth, reaching up to 30 metres in length — surface regularly in these deep waters, often within sight of the shore.",
+      "Large pods of spinner dolphins are also resident year-round, and sperm whales, Bryde's whales, and occasional orca are reported during the season. Responsible, licensed whale watching boats operate daily from Mirissa Harbour.",
+    ],
+    highlights: [
+      "Blue whales — largest animals on earth",
+      "Resident spinner dolphin pods",
+      "Sperm whales and Bryde's whales also common",
+      "Best season: November to April",
+      "Morning departures from Mirissa Harbour",
+      "Near-certain blue whale sightings at peak season",
+    ],
+    article: [
+      { heading: "Blue Whales Off Sri Lanka's Coast", body: "Sri Lanka is one of the very best places in the world to see blue whales — the largest animals ever to have lived on earth. These magnificent creatures pass through the waters off Sri Lanka's south coast between November and April, drawn by the rich upwelling currents that follow the northeast monsoon. A typical whale watching trip from Mirissa offers sightings at distances that still seem impossibly close for an animal of this scale." },
+      { heading: "Where to Watch", body: "Mirissa, a small beach town on the southern tip of Sri Lanka, is the island's whale watching capital. Boats depart from Mirissa Harbour most mornings from November to April. The whale watching grounds lie around 10-15 nautical miles offshore, where the ocean floor drops sharply into deep water — ideal habitat for blue whales. A typical trip lasts 4-5 hours and offers near-certain blue whale sightings during peak season (January to March)." },
+      { heading: "Spinner Dolphins", body: "Sri Lanka is also home to large resident pods of spinner dolphins, named for their spectacular spinning leaps above the water's surface. Pods of hundreds of spinner dolphins are regularly encountered on whale watching trips, often surrounding the boat and bow-riding. These encounters alone are worth the trip. Sperm whales, Bryde's whales, and occasional orca sightings are also reported throughout the season." },
+      { heading: "What to Bring", body: "Morning departures are recommended to make the most of calm sea conditions and peak wildlife activity. Bring sunscreen, sunglasses, a light jacket for the open ocean, and a camera with a zoom lens. Anti-seasickness tablets are available at the harbour. Fun Holidays works exclusively with licensed, responsible whale watching operators who follow Sri Lanka's marine wildlife viewing guidelines to protect the animals and ensure a quality experience." },
+    ],
+    toChild: 100, toAdult: 180, showPrice: true, published: true,
+  },
+  {
+    slug: "sun-and-fun",
+    title: "Sun & Fun",
+    subtitle: "Sri Lanka's Finest Beach Experiences",
+    heroImage: "/images/destination/sun-fun-hero.jpg",
+    thumbnail: "/images/destination/sun-fun.jpg",
+    gallery: [],
+    overview: [
+      "Sri Lanka is blessed with over 1,600 kilometres of stunning coastline — ranging from the calm, golden-sand bays of the west and south to the pristine, lagoon-fringed shores of the east. Because the island's two coastlines face opposite monsoons, there is always a beach somewhere in Sri Lanka enjoying perfect sunshine.",
+      "From the accessible west coast resorts near Colombo airport to the picture-perfect south coast coves and the untouched eastern lagoons of Passikudah and Arugam Bay, Sri Lanka's beaches cater to every taste.",
+    ],
+    highlights: [
+      "West coast: Negombo, Marawila, Kalutara, Beruwela",
+      "South coast: Unawatuna, Mirissa, Weligama, Tangalle",
+      "East coast: Passikudah, Arugam Bay — pristine lagoons",
+      "Water sports at multiple locations",
+      "West & south best Nov–Apr / East best May–Oct",
+      "Safe swimming beaches for families",
+    ],
+    article: [
+      { heading: "Sri Lanka's 1,600km of Coastline", body: "Sri Lanka is blessed with over 1,600 kilometres of stunning coastline — an extraordinary variety of beaches ranging from the calm, golden-sand bays of the west and south to the pristine, lagoon-fringed shores of the east. Because the island's two coastlines face opposite monsoons, there is always a beach somewhere in Sri Lanka enjoying perfect conditions, no matter when you visit." },
+      { heading: "West Coast — Easy Access from Colombo", body: "The west coast beaches — Negombo, Marawila, Kalutara, and Beruwela — are the most accessible from Colombo and Bandaranaike International Airport, making them ideal for arrivals and departures. Calm seas, good hotel infrastructure, and a relaxed beach atmosphere make the west coast perfect for first and last nights in Sri Lanka. The best season here is November to April." },
+      { heading: "South Coast — Sri Lanka's Beach Capital", body: "Unawatuna, Mirissa, Weligama, and Tangalle on the south coast form the heart of Sri Lanka's beach holiday scene. Unawatuna's sheltered bay is ideal for swimming and snorkelling, while Weligama is famous for its gentle surf and the iconic image of stilted fishermen at sunrise. Mirissa combines a perfect crescent beach with world-class whale watching just offshore. The south coast is at its best from November to April." },
+      { heading: "East Coast — Sri Lanka's Best-Kept Secret", body: "Passikudah and Arugam Bay on the east coast are among Sri Lanka's most beautiful and least-visited beaches. Passikudah's shallow turquoise lagoon — stretching for nearly a kilometre with barely a ripple — is one of the safest swimming beaches in Asia, perfect for families. Arugam Bay combines world-class surf with a laid-back village atmosphere. The east coast season runs May to October, making it the perfect complement when the west and south are in monsoon." },
+    ],
+    toChild: 80, toAdult: 150, showPrice: true, published: true,
+  },
+  {
+    slug: "nature-trails-trekking",
+    title: "Nature Trails & Trekking",
+    subtitle: "Trek Sri Lanka's Highlands and Forests",
+    heroImage: "/images/destination/trekking-hero.jpg",
+    thumbnail: "/images/destination/trekking.jpg",
+    gallery: [],
+    overview: [
+      "Sri Lanka's central highlands, rising to over 2,500 metres, are home to some of the finest short and multi-day trekking in South Asia. Cloud forests, cascading waterfalls, tea estate pathways, and dramatic ridge-top viewpoints reward walkers with scenery that surprises most visitors who associate Sri Lanka primarily with beaches and wildlife.",
+      "From the eerie plateau landscape of Horton Plains to the biodiverse cloud forests of the Knuckles Range and the accessible trails around Ella, Sri Lanka's highlands offer memorable walking experiences for all fitness levels.",
+    ],
+    highlights: [
+      "Horton Plains — World's End escarpment (870m drop)",
+      "Knuckles Mountain Range — UNESCO World Heritage Site",
+      "Little Adam's Peak, Ella — accessible panoramic walk",
+      "Sinharaja Rainforest — endemic flora and fauna trails",
+      "Tea estate pathways and waterfall walks",
+      "Guided treks for all fitness levels",
+    ],
+    article: [
+      { heading: "Horton Plains — World's End", body: "Horton Plains National Park in the island's central highlands is Sri Lanka's most dramatic plateau landscape, sitting at over 2,100 metres above sea level. Its main attraction is World's End — a sheer escarpment that drops over 870 metres to the lowland jungle far below. The 9.5km loop trail takes around 3 hours and passes through cloud forest, open grassland, and the beautiful Baker's Falls waterfall. An early morning start is essential before cloud rolls in and obscures the view." },
+      { heading: "The Knuckles Mountain Range", body: "The Knuckles Conservation Forest — a UNESCO World Heritage Site — is Sri Lanka's most biodiverse trekking destination. Named for the mountain peaks that resemble the knuckles of a clenched fist, this dramatic highland area features cloud forest trails, over 34 endemic bird species, and cascading mountain streams. Guided half-day and multi-day treks explore traditional villages, hidden waterfalls, and ridgeline viewpoints with sweeping views across the island." },
+      { heading: "Ella — Sri Lanka's Trekking Hub", body: "The cool hill town of Ella has become Sri Lanka's most popular base for independent trekkers. Little Adam's Peak offers a straightforward 3km hike through tea bushes and jungle with panoramic views of the surrounding valley — ideal for all fitness levels and families. The more challenging Ella Rock trek climbs through forest to a spectacular summit. Just a 10-minute walk from town, the Nine Arch Bridge — a colonial-era railway viaduct draped in green — is one of Sri Lanka's most photographed sights." },
+      { heading: "Sinharaja Rainforest", body: "Sinharaja Forest Reserve in Sri Lanka's lowland wet zone is the island's last viable area of primary tropical rainforest and a UNESCO World Heritage Site. Guided nature walks here enter a world of towering trees, endemic birds, purple-faced langur monkeys, and extraordinary plant life found nowhere else on earth. The forest receives high rainfall year-round, making it a true rainforest experience in every sense. Early morning walks offer the richest wildlife encounters." },
+    ],
+    toChild: 100, toAdult: 200, showPrice: true, published: true,
+  },
+  {
+    slug: "surfing-the-coast",
+    title: "Surfing the Coast",
+    subtitle: "World-Class Surf at Arugam Bay",
+    heroImage: "/images/destination/surfing-hero.jpg",
+    thumbnail: "/images/destination/surfing.jpg",
+    gallery: [],
+    overview: [
+      "Arugam Bay on Sri Lanka's east coast is consistently ranked among the top surf destinations in Asia and one of the best right-hand point breaks in the world. A laid-back fishing village that transforms each May into a thriving surf town, Arugam Bay offers long, peeling right-handers that work reliably from May to October.",
+      "Beyond Arugam Bay, Sri Lanka's south and west coasts offer surf for every level from November to April — from Hikkaduwa's classic reef break to Weligama's gentle beach break that is ideal for complete beginners.",
+    ],
+    highlights: [
+      "Arugam Bay — consistently ranked world top-10 surf spot",
+      "Hikkaduwa classic reef break (west coast)",
+      "Weligama — best beginner surf in Sri Lanka",
+      "Two surf seasons cover the whole year",
+      "Surf schools, board hire, and lessons at all locations",
+      "Combined surf and beach holiday packages",
+    ],
+    article: [
+      { heading: "Arugam Bay — A World Top-10 Surf Spot", body: "Arugam Bay on Sri Lanka's east coast is consistently ranked among the top surf destinations in Asia and one of the best right-hand point breaks in the world. A sleepy fishing village that transforms each May into a thriving surf hub, Arugam Bay offers long, peeling right-handers at the main point that work reliably from May to October when the Indian Ocean swell is consistent. The vibe is relaxed, the accommodation affordable, and the waves genuinely world-class for intermediate and advanced surfers." },
+      { heading: "West Coast Surf", body: "Hikkaduwa on the south-west coast is Sri Lanka's original surf destination, with a reef break that has been pulling surfers since the 1970s. The surf here runs from November to April — the opposite season to Arugam Bay — making it ideal for visitors arriving in the peak beach holiday season. Nearby Midigama and Ahangama offer additional reef and point breaks. The breaks around Hikkaduwa suit intermediate surfers, with sections suitable for more experienced riders." },
+      { heading: "Weligama — Perfect for Beginners", body: "For those new to surfing, Weligama on the south coast is widely regarded as the best learn-to-surf destination in Sri Lanka. The bay's wide, gentle beach break is ideal for lessons — the waves are consistent but forgiving, and the sandy bottom makes it far more beginner-friendly than reef breaks. Dozens of surf schools in Weligama offer board hire and professional instruction from qualified local instructors. Most first-time surfers are standing on waves within two hours." },
+      { heading: "Planning Your Surf Trip", body: "Boards can be hired cheaply at all Sri Lanka surf spots, so there is no need to travel with equipment. Rash vests are recommended to protect against sunburn. The west and south coasts are best from November to April; the east coast from May to October. Fun Holidays can arrange surf-focused itineraries that combine the best waves with beach stays, wildlife safaris, and cultural visits — getting the most out of your time in Sri Lanka." },
+    ],
+    toChild: 100, toAdult: 180, showPrice: true, published: true,
+  },
+  {
+    slug: "whitewater-rafting",
+    title: "Whitewater Rafting",
+    subtitle: "Kitulgala Rafting on the Kelani River",
+    heroImage: "/images/destination/rafting-hero.jpg",
+    thumbnail: "/images/destination/rafting.jpg",
+    gallery: [],
+    overview: [
+      "Kitulgala, a small town nestled in the lush rainforest of Sabaragamuwa Province, is Sri Lanka's whitewater rafting capital. The Kelani River here offers an exhilarating 8-kilometre rafting run with a series of Grade 3 and 4 rapids — challenging enough to be genuinely exciting, but accessible to most fit adults with no prior experience required.",
+      "The surrounding jungle setting — the area was famously used as the filming location for the 1957 film The Bridge on the River Kwai — adds drama and beauty to what is already one of the most exciting outdoor activities in Sri Lanka.",
+    ],
+    highlights: [
+      "Grade 3-4 rapids on the Kelani River",
+      "8km rafting run through rainforest gorge",
+      "Professional guides and full safety equipment",
+      "Optional: waterfall abseiling nearby",
+      "Combine with jungle trekking",
+      "Filming location of The Bridge on the River Kwai",
+    ],
+    article: [
+      { heading: "Sri Lanka's Premier Rafting Destination", body: "Kitulgala, a small town set in the lush rainforest of Sabaragamuwa Province, is Sri Lanka's whitewater rafting capital. The Kelani River here offers an exhilarating 8-kilometre rafting run with a series of Grade 3 and 4 rapids — challenging enough to be genuinely exciting, but accessible to most fit adults with no prior rafting experience required. Professional guides lead every raft, and full safety equipment is provided." },
+      { heading: "The Kelani River Experience", body: "The rafting run at Kitulgala takes approximately 2 hours on the water. The route passes through a series of named rapids — including Spice Garden, Final Frontier, and Hell's Gate — interspersed with calmer stretches that allow you to absorb the extraordinary river gorge scenery. The surrounding rainforest, draped in vines and ferns, is home to endemic birds, monitor lizards, and the occasional mugger crocodile basking on the rocks." },
+      { heading: "Combined Adventures at Kitulgala", body: "Kitulgala offers more than just rafting. The surrounding forest is excellent for guided jungle trekking, and waterfall abseiling experiences are available nearby. The area was famously used as the filming location for the 1957 Oscar-winning film The Bridge on the River Kwai — the original bridge supports are still visible in the river. Most visitors combine Kitulgala with a day visit to the Sinharaja Rainforest, just over an hour's drive south." },
+      { heading: "Safety and Practicalities", body: "All rafting operators in Kitulgala provide safety helmets, life jackets, and paddles, with experienced guides leading each raft. No swimming ability is required — you stay in the raft throughout. The rafting season runs year-round, though the river runs fastest and most excitingly during the wet season (May–September). Bring dry clothes in a sealed bag, leave valuables in the vehicle, and wear secure footwear. Fun Holidays works exclusively with licensed, safety-certified rafting operators." },
+    ],
+    toChild: 80, toAdult: 150, showPrice: true, published: true,
+  },
+  {
+    slug: "bird-watching",
+    title: "Bird Watching",
+    subtitle: "Sri Lanka's 400+ Bird Species",
+    heroImage: "/images/destination/birdwatching-hero.jpg",
+    thumbnail: "/images/destination/birdwatching.jpg",
+    gallery: [],
+    overview: [
+      "Sri Lanka is one of Asia's premier birdwatching destinations, recognised worldwide for its extraordinary combination of endemic species, accessible birding habitats, and remarkable year-round diversity. The island's 400+ recorded bird species include 33 endemics — species found nowhere else on earth.",
+      "From the lowland rainforests of Sinharaja to the coastal wetlands of Bundala and the cloud forests of the Knuckles Range, Sri Lanka offers world-class birding experiences within compact, easily accessible distances.",
+    ],
+    highlights: [
+      "33 endemic bird species — found nowhere else",
+      "Sinharaja Rainforest — best endemic site in Asia",
+      "Bundala National Park — Ramsar wetland with flamingos",
+      "Knuckles Range cloud forest birds",
+      "400+ total species including winter migrants",
+      "Expert naturalist guides for all levels",
+    ],
+    article: [
+      { heading: "A Global Birdwatching Hotspot", body: "Sri Lanka is one of Asia's premier birdwatching destinations, recognised worldwide for its extraordinary combination of endemic species, accessible habitats, and remarkable year-round diversity. The island's 400+ recorded bird species include 33 endemics — species found nowhere else on earth — making Sri Lanka an essential destination for serious listers and a magical one for casual bird enthusiasts. Almost all key birding sites are within a few hours' drive of each other." },
+      { heading: "Sinharaja — Sri Lanka's Endemic Bird Capital", body: "The Sinharaja Forest Reserve in Sri Lanka's wet zone lowlands is the undisputed heart of the island's endemic bird zone. This UNESCO World Heritage Site rainforest is the single best location to see the majority of Sri Lanka's endemic species, including the stunning Sri Lanka Blue Magpie, the Sri Lanka Junglefowl (national bird), the Green-billed Coucal, and the Red-faced Malkoha. Early morning guided walks with a local naturalist dramatically increase sighting success." },
+      { heading: "Bundala — For Waders and Water Birds", body: "Bundala National Park on the south coast is Sri Lanka's premier wetland birding site and a Ramsar-listed internationally important wetland. The park's lagoons and mudflats attract vast numbers of migratory waders from central Asia and Siberia between September and March. Greater Flamingos feed in the shallow lagoons during peak season. Resident species include Painted Storks, Open-billed Storks, Spot-billed Pelicans, and a wide variety of herons and egrets." },
+      { heading: "Planning Your Birding Visit", body: "The best all-round birding season in Sri Lanka is December to March, when resident species are most active and winter migrants from the north are present. The Knuckles Mountain Range offers exceptional highland birding for species such as the Dull-blue Flycatcher and Sri Lanka Whistling Thrush. Fun Holidays arranges personalised birding itineraries with specialist naturalist guides for all levels — from first-time bird enthusiasts to expert listers targeting their 33 endemics." },
+    ],
+    toChild: 80, toAdult: 150, showPrice: true, published: true,
+  },
 ];
 
 // ── Team ──────────────────────────────────────────────────────────────────
@@ -215,8 +454,16 @@ export default function SeedData() {
     setS("tours", "seeding");
     try {
       for (const t of TOURS) {
+        // Preserve any Firebase Storage URLs the admin already uploaded
+        const existing = (await getDoc(doc(db, "tours", t.slug))).data() || {};
         await setDoc(doc(db, "tours", t.slug), {
-          ...t, createdAt: serverTimestamp(), updatedAt: serverTimestamp(),
+          ...t,
+          // Keep Storage URLs; fall back to seed path only if none uploaded yet
+          image:         isStorageUrl(existing.image)         ? existing.image         : t.image,
+          heroImage:     isStorageUrl(existing.heroImage)     ? existing.heroImage     : t.heroImage,
+          thumbnailImage: isStorageUrl(existing.thumbnailImage) ? existing.thumbnailImage : t.thumbnailImage,
+          createdAt:     existing.createdAt || serverTimestamp(),
+          updatedAt:     serverTimestamp(),
         });
       }
       setS("tours", "done");
@@ -245,8 +492,19 @@ export default function SeedData() {
     setS("destinations", "seeding");
     try {
       for (const d of DESTINATIONS) {
+        // Preserve any Firebase Storage URLs the admin already uploaded
+        const existing = (await getDoc(doc(db, "destinations", d.slug))).data() || {};
+        const gallery = existing.gallery?.length > 0 &&
+          existing.gallery.some(isStorageUrl)
+          ? existing.gallery   // keep uploaded gallery
+          : d.gallery;
         await setDoc(doc(db, "destinations", d.slug), {
-          ...d, createdAt: serverTimestamp(), updatedAt: serverTimestamp(),
+          ...d,
+          heroImage:  isStorageUrl(existing.heroImage)  ? existing.heroImage  : d.heroImage,
+          thumbnail:  isStorageUrl(existing.thumbnail)  ? existing.thumbnail  : d.thumbnail,
+          gallery,
+          createdAt:  existing.createdAt || serverTimestamp(),
+          updatedAt:  serverTimestamp(),
         });
       }
       setS("destinations", "done");

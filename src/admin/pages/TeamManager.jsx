@@ -3,6 +3,7 @@ import { db } from "../../firebase/config";
 import {
   collection, getDocs, addDoc, updateDoc, deleteDoc, doc, serverTimestamp,
 } from "firebase/firestore";
+import ImageUpload from "../components/ImageUpload";
 
 const EMPTY = { name: "", role: "", image: "", order: "" };
 
@@ -123,11 +124,13 @@ export default function TeamManager() {
                 <input value={form.role} onChange={(e) => set("role", e.target.value)} className="inp" placeholder="Senior Tour Guide" />
               </div>
               <div>
-                <label className="label">Photo URL</label>
-                <input value={form.image} onChange={(e) => set("image", e.target.value)} className="inp" placeholder="/images/about/guide-name.jpg" />
-                {form.image && (
-                  <img src={form.image} alt="" className="mt-2 w-16 h-16 rounded-full object-cover border border-gray-200" onError={(e) => e.target.style.display = "none"} />
-                )}
+                <ImageUpload
+                  value={form.image}
+                  onChange={(url) => set("image", url)}
+                  folder="team"
+                  label="Photo"
+                  shape="circle"
+                />
               </div>
               <div>
                 <label className="label">Display Order (1 = first)</label>

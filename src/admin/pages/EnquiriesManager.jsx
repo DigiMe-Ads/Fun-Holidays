@@ -9,9 +9,10 @@ function tsToString(ts) {
 }
 
 const TYPE_BADGE = {
-  contact:       "bg-blue-100 text-blue-700",
-  "tailor-made": "bg-purple-100 text-purple-700",
-  newsletter:    "bg-green-100 text-green-700",
+  contact:                "bg-blue-100 text-blue-700",
+  "tailor-made":          "bg-purple-100 text-purple-700",
+  newsletter:             "bg-green-100 text-green-700",
+  "destination-enquiry":  "bg-orange-100 text-orange-700",
 };
 const STATUS_BADGE = {
   new:     "bg-yellow-100 text-yellow-800",
@@ -77,17 +78,21 @@ export default function EnquiriesManager() {
 
       {/* Filters */}
       <div className="flex gap-2 mb-6 flex-wrap">
-        {["all", "contact", "tailor-made", "newsletter"].map((f) => (
+        {["all", "contact", "tailor-made", "destination-enquiry", "newsletter"].map((f) => (
           <button
             key={f}
             onClick={() => setFilter(f)}
-            className={`px-4 py-1.5 rounded-full text-sm font-medium capitalize transition-colors ${
+            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
               filter === f
                 ? "bg-slate-900 text-white"
                 : "bg-white border border-gray-200 text-gray-600 hover:border-gray-400"
             }`}
           >
-            {f === "all" ? `All (${enquiries.length})` : `${f} (${enquiries.filter((e) => e.type === f).length})`}
+            {f === "all"
+              ? `All (${enquiries.length})`
+              : f === "destination-enquiry"
+              ? `Destination (${enquiries.filter((e) => e.type === f).length})`
+              : `${f} (${enquiries.filter((e) => e.type === f).length})`}
           </button>
         ))}
         <button
@@ -160,13 +165,14 @@ export default function EnquiriesManager() {
 
             <dl className="space-y-3 text-sm">
               {[
-                ["Name",    selected.name],
-                ["Email",   selected.email],
-                ["Phone",   selected.phone],
-                ["Type",    selected.type],
-                ["Subject", selected.subject],
-                ["Tour",    selected.tourName],
-                ["Date",    tsToString(selected.createdAt)],
+                ["Name",        selected.name],
+                ["Email",       selected.email],
+                ["Phone",       selected.phone],
+                ["Type",        selected.type],
+                ["Subject",     selected.subject],
+                ["Tour",        selected.tourName],
+                ["Destination", selected.destination],
+                ["Date",        tsToString(selected.createdAt)],
               ].map(([k, v]) =>
                 v ? (
                   <div key={k}>

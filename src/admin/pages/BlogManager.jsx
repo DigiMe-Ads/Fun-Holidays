@@ -3,6 +3,7 @@ import { db } from "../../firebase/config";
 import {
   collection, getDocs, setDoc, updateDoc, deleteDoc, doc, serverTimestamp,
 } from "firebase/firestore";
+import ImageUpload from "../components/ImageUpload";
 
 const EMPTY = {
   slug: "", title: "", excerpt: "", category: "Tours & Travel",
@@ -207,8 +208,12 @@ export default function BlogManager() {
               </div>
 
               <div>
-                <label className="label">Image URL</label>
-                <input value={form.image} onChange={(e) => set("image", e.target.value)} className="inp" placeholder="/images/home/blog-image.jpg" />
+                <ImageUpload
+                  value={form.image}
+                  onChange={(url) => set("image", url)}
+                  folder="blogs"
+                  label="Cover Image"
+                />
               </div>
 
               <div>

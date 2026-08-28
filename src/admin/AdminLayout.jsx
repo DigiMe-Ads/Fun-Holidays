@@ -8,6 +8,7 @@ const NAV = [
   { to: "/admin/blog",         label: "Blog Posts",   icon: "✍️"  },
   { to: "/admin/destinations", label: "Destinations", icon: "🌴" },
   { to: "/admin/team",         label: "Team",         icon: "👥" },
+  { to: "/admin/heatmap",      label: "Heatmap",      icon: "🔥" },
   { to: "/admin/seed",         label: "Seed Data",    icon: "🌱" },
 ];
 

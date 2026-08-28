@@ -3,14 +3,18 @@ import { db } from "../../firebase/config";
 import {
   collection, getDocs, setDoc, updateDoc, deleteDoc, doc, serverTimestamp,
 } from "firebase/firestore";
+import ImageUpload from "../components/ImageUpload";
+import GalleryUpload from "../components/GalleryUpload";
 
 const EMPTY = {
   slug: "", title: "", subtitle: "",
   heroImage: "", thumbnail: "",
-  gallery: "",     // one URL per line
-  overview: "",    // one paragraph per line
-  highlights: "",  // one item per line
+  gallery: [],      // array of image URLs
+  overview: "",     // one paragraph per line
+  highlights: "",   // one item per line
+  article: "",      // JSON: [{heading, body}, ...]
   toChild: "", toAdult: "",
+  showPrice: true,  // false = hide prices, show "Enquire" button instead
   published: true,
 };
 
@@ -38,11 +42,13 @@ export default function DestinationsManager() {
     setError("");
     setForm({
       ...EMPTY, ...d,
-      gallery:    toLines(d.gallery),
+      gallery:    Array.isArray(d.gallery) ? d.gallery : (d.gallery || "").split("\n").filter(Boolean),
       overview:   toLines(d.overview),
       highlights: toLines(d.highlights),
+      article:    d.article ? JSON.stringify(d.article, null, 2) : "",
       toChild:    d.toChild ?? "",
       toAdult:    d.toAdult ?? "",
+      showPrice:  d.showPrice !== false, // default true if field missing
     });
   }
 
@@ -53,6 +59,14 @@ export default function DestinationsManager() {
     setError("");
     const slug = form.slug || slugify(form.title);
     if (!slug) { setError("Title / slug is required."); return; }
+    let article;
+    try {
+      article = form.article ? JSON.parse(form.article) : [];
+    } catch {
+      setError("Article JSON is invalid. Please fix the format.");
+      return;
+    }
+
     setSaving(true);
     try {
       const isNew = !form.id;
@@ -62,11 +76,13 @@ export default function DestinationsManager() {
         subtitle:   form.subtitle,
         heroImage:  form.heroImage,
         thumbnail:  form.thumbnail || form.heroImage,
-        gallery:    fromLines(form.gallery),
+        gallery:    form.gallery,  // already an array
         overview:   fromLines(form.overview),
         highlights: fromLines(form.highlights),
+        article,
         toChild:    Number(form.toChild) || 0,
         toAdult:    Number(form.toAdult) || 0,
+        showPrice:  form.showPrice,
         published:  form.published,
         updatedAt:  serverTimestamp(),
         ...(isNew ? { createdAt: serverTimestamp() } : {}),
@@ -170,20 +186,26 @@ export default function DestinationsManager() {
               </div>
 
               <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="label">Hero Image URL</label>
-                  <input value={form.heroImage} onChange={(e) => set("heroImage", e.target.value)} className="inp" placeholder="/images/destination/hero.jpg" />
-                </div>
-                <div>
-                  <label className="label">Thumbnail URL</label>
-                  <input value={form.thumbnail} onChange={(e) => set("thumbnail", e.target.value)} className="inp" placeholder="Same as hero if blank" />
-                </div>
+                <ImageUpload
+                  value={form.heroImage}
+                  onChange={(url) => set("heroImage", url)}
+                  folder="destinations"
+                  label="Hero Image"
+                />
+                <ImageUpload
+                  value={form.thumbnail}
+                  onChange={(url) => set("thumbnail", url)}
+                  folder="destinations"
+                  label="Thumbnail"
+                />
               </div>
 
-              <div>
-                <label className="label">Gallery Images (one URL per line)</label>
-                <textarea rows={5} value={form.gallery} onChange={(e) => set("gallery", e.target.value)} className="inp" placeholder="/images/destination/img1.jpg&#10;/images/destination/img2.jpg" />
-              </div>
+              <GalleryUpload
+                value={form.gallery}
+                onChange={(urls) => set("gallery", urls)}
+                folder="destinations"
+                label="Gallery Images"
+              />
 
               <div>
                 <label className="label">Overview (one paragraph per line)</label>
@@ -193,6 +215,20 @@ export default function DestinationsManager() {
               <div>
                 <label className="label">Highlights (one item per line)</label>
                 <textarea rows={4} value={form.highlights} onChange={(e) => set("highlights", e.target.value)} className="inp" />
+              </div>
+
+              <div>
+                <label className="label">Article Sections (JSON)</label>
+                <p className="text-xs text-gray-400 mb-1">
+                  Format: {`[{"heading": "Section Title", "body": "Paragraph text here."}, ...]`}
+                </p>
+                <textarea
+                  rows={10}
+                  value={form.article}
+                  onChange={(e) => set("article", e.target.value)}
+                  className="inp font-mono text-xs"
+                  placeholder={`[\n  {"heading": "About This Experience", "body": "Describe the experience here."},\n  {"heading": "What to Expect", "body": "More detail about what visitors will see and do."}\n]`}
+                />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
@@ -206,9 +242,30 @@ export default function DestinationsManager() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-2">
-                <input type="checkbox" id="pub" checked={form.published} onChange={(e) => set("published", e.target.checked)} className="w-4 h-4 accent-yellow-400" />
-                <label htmlFor="pub" className="text-sm text-gray-700">Published</label>
+              <div className="flex flex-col gap-3">
+                <div className="flex items-start gap-2 p-3 bg-gray-50 rounded-xl border border-gray-100">
+                  <input
+                    type="checkbox"
+                    id="showPrice"
+                    checked={form.showPrice !== false}
+                    onChange={(e) => set("showPrice", e.target.checked)}
+                    className="w-4 h-4 accent-yellow-400 mt-0.5 shrink-0"
+                  />
+                  <div>
+                    <label htmlFor="showPrice" className="text-sm font-medium text-gray-700 cursor-pointer">
+                      Show pricing on destination page
+                    </label>
+                    <p className="text-xs text-gray-400 mt-0.5">
+                      When unchecked, visitors see an &ldquo;Enquire About Pricing&rdquo; button
+                      that sends you an email enquiry instead of showing the prices above.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <input type="checkbox" id="pub" checked={form.published} onChange={(e) => set("published", e.target.checked)} className="w-4 h-4 accent-yellow-400" />
+                  <label htmlFor="pub" className="text-sm text-gray-700">Published</label>
+                </div>
               </div>
 
               <div className="flex gap-3 pt-2">

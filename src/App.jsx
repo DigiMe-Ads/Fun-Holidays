@@ -1,4 +1,6 @@
 import { BrowserRouter, Routes, Route, Outlet, Navigate } from "react-router-dom";
+import { useEffect } from "react";
+import { initClickTracker } from "./utils/clickTracker";
 
 // Auth
 import { AuthProvider } from "./contexts/AuthContext";
@@ -14,6 +16,7 @@ import BlogManager from "./admin/pages/BlogManager";
 import DestinationsManager from "./admin/pages/DestinationsManager";
 import TeamManager from "./admin/pages/TeamManager";
 import SeedData from "./admin/pages/SeedData";
+import HeatmapView from "./admin/pages/HeatmapView";
 
 // Public layout components
 import TopBar from "./common/TopBar";
@@ -48,6 +51,9 @@ function PublicLayout() {
 }
 
 function App() {
+  // Start tracking visitor clicks for the admin heatmap
+  useEffect(() => { initClickTracker(); }, []);
+
   return (
     <AuthProvider>
       <BrowserRouter>
@@ -71,6 +77,7 @@ function App() {
             <Route path="blog"         element={<BlogManager />} />
             <Route path="destinations" element={<DestinationsManager />} />
             <Route path="team"         element={<TeamManager />} />
+            <Route path="heatmap"      element={<HeatmapView />} />
             <Route path="seed"         element={<SeedData />} />
           </Route>
 

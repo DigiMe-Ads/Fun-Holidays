@@ -3,6 +3,7 @@ import { db } from "../../firebase/config";
 import {
   collection, getDocs, setDoc, updateDoc, deleteDoc, doc, serverTimestamp,
 } from "firebase/firestore";
+import ImageUpload from "../components/ImageUpload";
 
 const EMPTY = {
   slug: "", title: "", duration: "", image: "", heroImage: "",
@@ -220,14 +221,18 @@ export default function ToursManager() {
               </div>
 
               <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="label">Card Image URL</label>
-                  <input value={form.image} onChange={(e) => set("image", e.target.value)} className="inp" placeholder="/images/tours/name.jpg" />
-                </div>
-                <div>
-                  <label className="label">Hero Image URL</label>
-                  <input value={form.heroImage} onChange={(e) => set("heroImage", e.target.value)} className="inp" placeholder="Same as card if blank" />
-                </div>
+                <ImageUpload
+                  value={form.image}
+                  onChange={(url) => set("image", url)}
+                  folder="tours"
+                  label="Card Image"
+                />
+                <ImageUpload
+                  value={form.heroImage}
+                  onChange={(url) => set("heroImage", url)}
+                  folder="tours"
+                  label="Hero Image"
+                />
               </div>
 
               <div>

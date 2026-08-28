@@ -27,9 +27,10 @@ function tsToString(ts) {
 }
 
 const TYPE_BADGE = {
-  contact:      "bg-blue-100 text-blue-700",
-  "tailor-made": "bg-purple-100 text-purple-700",
-  newsletter:   "bg-green-100 text-green-700",
+  contact:               "bg-blue-100 text-blue-700",
+  "tailor-made":         "bg-purple-100 text-purple-700",
+  newsletter:            "bg-green-100 text-green-700",
+  "destination-enquiry": "bg-orange-100 text-orange-700",
 };
 const STATUS_BADGE = {
   new:     "bg-yellow-100 text-yellow-700",
@@ -148,7 +149,7 @@ export default function AdminDashboard() {
                         {e.status || "new"}
                       </span>
                     </td>
-                    <td className="px-6 py-3 text-gray-600 max-w-xs truncate">{e.subject || e.tourName || "—"}</td>
+                    <td className="px-6 py-3 text-gray-600 max-w-xs truncate">{e.subject || e.destination || e.tourName || "—"}</td>
                   </tr>
                 ))}
               </tbody>
