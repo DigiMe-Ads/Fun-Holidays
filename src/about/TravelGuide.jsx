@@ -1,32 +1,7 @@
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import useScrollReveal from "../hooks/useScrollReveal";
-
-const guides = [
-  {
-    id: 1,
-    name: "Emma Williams",
-    role: "Senior Tour Guide",
-    image: "/images/about/guide-emma.jpg",
-  },
-  {
-    id: 2,
-    name: "James Anderson",
-    role: "Travel Specialist",
-    image: "/images/about/guide-james.jpg",
-  },
-  {
-    id: 3,
-    name: "Sophia Martinez",
-    role: "Cultural Guide",
-    image: "/images/about/guide-sophia.jpg",
-  },
-  {
-    id: 4,
-    name: "Ava Thompson",
-    role: "Holiday Planner",
-    image: "/images/about/guide-ava.jpg",
-  },
-];
+import { db } from "../firebase/config";
+import { collection, getDocs } from "firebase/firestore";
 
 const GuideCard = ({ guide, index }) => {
   const ref = useRef(null);
@@ -42,7 +17,6 @@ const GuideCard = ({ guide, index }) => {
       }}
       className="flex flex-col items-center gap-3 group cursor-pointer"
     >
-      {/* Circular image */}
       <div className="w-40 h-40 rounded-full overflow-hidden ring-2 ring-transparent group-hover:ring-orange-400 transition-all duration-300">
         <img
           src={guide.image}
@@ -50,8 +24,6 @@ const GuideCard = ({ guide, index }) => {
           className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-110"
         />
       </div>
-
-      {/* Name + role */}
       <div className="text-center">
         <p className="text-gray-800 text-sm font-medium">{guide.name}</p>
         <p className="text-gray-400 text-xs mt-0.5">{guide.role}</p>
@@ -64,9 +36,21 @@ const TravelGuides = () => {
   const headingRef = useRef(null);
   useScrollReveal(headingRef, 0);
 
+  const [guides, setGuides] = useState([]);
+
+  useEffect(() => {
+    getDocs(collection(db, "team"))
+      .then((snap) => {
+        const data = snap.docs
+          .map((d) => ({ ...d.data(), firestoreId: d.id }))
+          .sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
+        setGuides(data);
+      })
+      .catch((err) => console.error("Failed to load team:", err));
+  }, []);
+
   return (
     <section className="w-full px-4 sm:px-6 py-14">
-      {/* Heading */}
       <div
         ref={headingRef}
         style={{
@@ -81,10 +65,9 @@ const TravelGuides = () => {
         </h2>
       </div>
 
-      {/* Guide cards */}
       <div className="flex flex-wrap justify-center gap-10 sm:gap-16 max-w-4xl mx-auto">
         {guides.map((guide, i) => (
-          <GuideCard key={guide.id} guide={guide} index={i} />
+          <GuideCard key={guide.firestoreId} guide={guide} index={i} />
         ))}
       </div>
     </section>

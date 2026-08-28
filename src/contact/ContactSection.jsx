@@ -9,13 +9,16 @@ const contactDetails = [
     id: 1,
     icon: MdEmail,
     title: "Email Us",
-    lines: ["info@funholidays.lk", "www.funholidays.lk"],
+    lines: [
+      { text: "info@funholidays.lk", href: "mailto:info@funholidays.lk" },
+      { text: "www.funholidays.lk",  href: "https://www.funholidays.lk" },
+    ],
   },
   {
     id: 2,
     icon: FaPhone,
     title: "Call Us",
-    lines: ["+94 32 225 0903", "Available 24/7 hours"],
+    lines: ["+94 32 225 4811", "Available 24/7 hours"],
   },
   {
     id: 3,
@@ -110,11 +113,21 @@ const ContactSection = () => {
                       {item.title}
                     </span>
                   </div>
-                  {item.lines.map((line, i) => (
-                    <p key={i} className="text-gray-400 text-xs pl-6">
-                      {line}
-                    </p>
-                  ))}
+                  {item.lines.map((line, i) =>
+                    typeof line === "object" ? (
+                      <a
+                        key={i}
+                        href={line.href}
+                        className="text-gray-400 text-xs pl-6 hover:text-orange-500 transition-colors"
+                      >
+                        {line.text}
+                      </a>
+                    ) : (
+                      <p key={i} className="text-gray-400 text-xs pl-6">
+                        {line}
+                      </p>
+                    )
+                  )}
                 </div>
               );
             })}

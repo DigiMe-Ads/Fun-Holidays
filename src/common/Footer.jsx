@@ -7,15 +7,14 @@ import { isSafari } from "../utils/browser";
 import { submitToWeb3Forms } from "../utils/web3forms";
 
 const services = [
-  { label: "Best Tour Guide", path: "/tours" },
-  { label: "Tour Booking", path: "/tours" },
-  { label: "Hotel Booking", path: "/tours" },
-  { label: "Ticket Booking", path: "/tours" },
+  { label: "Tour Packages", path: "/tours" },
+  { label: "Tailor Made",    path: "/tailor-made" },
+  { label: "MICE",   path: "/mice" },
+  // { label: "Ticket Booking",  path: "/contact" },
 ];
 const company = [
+  { label: "Fun Things to Do", path: "/destinations" },
   { label: "About Us", path: "/about" },
-  { label: "Community", path: "/about" },
-  { label: "MICE", path: "/mice" },
   { label: "News Blog", path: "/blog" },
 ];
 const destinations = [
@@ -136,7 +135,7 @@ const Footer = () => {
             <li className="flex items-center gap-3">
               <MdEmail className="text-gray-400 text-lg shrink-0" />
               <a
-                href="mailto:supportrevelo@gmail.com"
+                href="mailto:info@funholidays.lk"
                 className="text-gray-400 text-sm hover:text-orange-500 transition-colors"
               >
                 info@funholidays.lk
@@ -145,10 +144,10 @@ const Footer = () => {
             <li className="flex items-center gap-3">
               <MdPhone className="text-gray-400 text-lg shrink-0" />
               <a
-                href="tel:+94322250903"
+                href="tel:+94322254811"
                 className="text-gray-400 text-sm hover:text-orange-500 transition-colors"
               >
-                +94 32 225 0903
+                +94 32 225 4811
               </a>
             </li>
           </ul>

@@ -1,55 +1,9 @@
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import useScrollReveal from "../hooks/useScrollReveal";
 import { FaHeart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-
-const tours = [
-  {
-    id: 1,
-    title: "Golden Beach Tour",
-    duration: "4 Nights / 5 Days",
-    image: "/images/tours/golden-beach.jpg",
-    description:
-      "Escape to Sri Lanka's finest beaches on this perfectly crafted 5-day coastal holiday. From the fishing village of Negombo — just 10 minutes from Colombo airport — to the golden south coast beaches below the UNESCO-listed city of Galle. Includes a canal boat ride, turtle hatchery visit, cookery class, and tours of Colombo and Galle.",
-    slug: "golden-beach-tour",
-  },
-  {
-    id: 2,
-    title: "Best of Sri Lanka Tour",
-    duration: "6 Nights / 7 Days",
-    image: "/images/tours/best-sri-lanka.jpg",
-    description:
-      "The definitive 7-day Sri Lanka holiday — our most popular tour package. From the ancient kingdoms of Anuradhapura and the cave temples of Dambulla to Sigiriya Rock Fortress, the tea plantations of Nuwara Eliya, and a thrilling afternoon jeep safari in Yala National Park.",
-    slug: "best-of-sri-lanka-tour",
-  },
-  {
-    id: 3,
-    title: "Amazing Sri Lanka Tour",
-    duration: "6 Nights / 7 Days",
-    image: "/images/tours/amazing-sri-lanka.jpg",
-    description:
-      "Venture beyond the well-trodden path and discover Sri Lanka's most extraordinary hidden treasures. The east coast — opened to tourism after a 30-year civil war — offers whale watching in Trincomalee, meeting the Veddas indigenous people, and Passikudah's pristine beaches.",
-    slug: "amazing-sri-lanka-tour",
-  },
-  {
-    id: 4,
-    title: "Culture & Heritage Tour",
-    duration: "7 Nights / 8 Days",
-    image: "/images/tours/culture-heritage.jpg",
-    description:
-      "For travellers inspired by history — the ultimate Sri Lanka cultural holiday. This 8-day journey covers 5 of Sri Lanka's 8 UNESCO World Heritage Sites: Anuradhapura, Dambulla, Sigiriya, Polonnaruwa, Galle, and Kandy, bringing over 2,000 years of Sri Lankan civilisation to life.",
-    slug: "culture-heritage-tour",
-  },
-  {
-    id: 5,
-    title: "Honeymoon Tour",
-    duration: "8 Nights / 9 Days",
-    image: "/images/tours/honeymoon.jpg",
-    description:
-      "Begin your forever together on Asia's most romantic island. A beautifully crafted 9-day journey balancing adventure, culture, and pure relaxation — elephant blessings at Pinnawala, a scenic train ride through misty tea plantations, Small Adam's Peak in Ella, and a private candlelit dinner on the beach.",
-    slug: "honeymoon-tour",
-  },
-];
+import { db } from "../firebase/config";
+import { collection, getDocs } from "firebase/firestore";
 
 const TourCard = ({ tour, index }) => {
   const ref = useRef(null);
@@ -111,6 +65,24 @@ const TourPackages = () => {
   const headingRef = useRef(null);
   useScrollReveal(headingRef, 0);
 
+  const [tours, setTours] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getDocs(collection(db, "tours"))
+      .then((snap) => {
+        const data = snap.docs
+          .map((d) => ({ ...d.data(), slug: d.id }))
+          .filter((t) => t.published !== false);
+        setTours(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Failed to load tours:", err);
+        setLoading(false);
+      });
+  }, []);
+
   const leftCol = tours.filter((_, i) => i % 2 === 0);
   const rightCol = tours.filter((_, i) => i % 2 !== 0);
 
@@ -135,18 +107,24 @@ const TourPackages = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        <div className="flex flex-col gap-5">
-          {leftCol.map((tour, i) => (
-            <TourCard key={tour.id} tour={tour} index={i * 2} />
-          ))}
+      {loading ? (
+        <div className="text-center py-16">
+          <p className="text-gray-400 text-sm">Loading tour packages…</p>
         </div>
-        <div className="flex flex-col gap-5">
-          {rightCol.map((tour, i) => (
-            <TourCard key={tour.id} tour={tour} index={i * 2 + 1} />
-          ))}
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+          <div className="flex flex-col gap-5">
+            {leftCol.map((tour, i) => (
+              <TourCard key={tour.slug} tour={tour} index={i * 2} />
+            ))}
+          </div>
+          <div className="flex flex-col gap-5">
+            {rightCol.map((tour, i) => (
+              <TourCard key={tour.slug} tour={tour} index={i * 2 + 1} />
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </section>
   );
 };

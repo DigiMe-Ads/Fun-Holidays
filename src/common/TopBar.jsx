@@ -36,12 +36,12 @@ const TopBar = () => {
 
           {/* Phone — icon only on mobile, full on sm+ */}
           <a
-            href="tel:+94322250903"
+            href="tel:+94322254811"
             className="flex items-center gap-1 text-gray-300 hover:text-white transition"
           >
             <FaPhone className="text-orange-500 shrink-0" />
             <span className="hidden sm:inline text-xs">
-              Call : +94 32 225 0903
+              Call : +94 32 225 4811
             </span>
           </a>
 
