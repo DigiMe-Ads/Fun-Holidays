@@ -7,7 +7,10 @@ import { FaChevronRight, FaSearch } from "react-icons/fa";
 import { submitToWeb3Forms } from "../utils/web3forms";
 import useSEO from "../hooks/useSEO";
 import { db } from "../firebase/config";
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import {
+  collection, doc, getDoc, getDocs,
+  addDoc, query, where, serverTimestamp,
+} from "firebase/firestore";
 
 const SITE_URL = "https://www.funholidays.lk";
 
@@ -19,23 +22,39 @@ const BlogDetailPage = () => {
   useScrollReveal(contentRef, 100);
   useScrollReveal(sidebarRef, 200);
 
-  const [blog, setBlog]       = useState(null);
+  const [blog, setBlog]         = useState(null);
   const [allBlogs, setAllBlogs] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading]   = useState(true);
+  const [comments, setComments] = useState([]);
 
   useEffect(() => {
     async function load() {
       try {
-        // Fetch current post and all posts in parallel
-        const [postSnap, listSnap] = await Promise.all([
+        // Fetch post, all posts, and approved comments in parallel
+        // Fetch all comments for this post, filter+sort client-side (no composite index needed)
+        const commentsQuery = query(
+          collection(db, "blogs", slug, "comments"),
+          where("approved", "==", true),
+        );
+        const [postSnap, listSnap, commentsSnap] = await Promise.all([
           getDoc(doc(db, "blogs", slug)),
           getDocs(collection(db, "blogs")),
+          getDocs(commentsQuery),
         ]);
         if (postSnap.exists()) setBlog({ ...postSnap.data(), slug: postSnap.id });
         const list = listSnap.docs
           .map((d) => ({ ...d.data(), slug: d.id }))
           .filter((b) => b.published !== false);
         setAllBlogs(list);
+        // Sort approved comments oldest-first client-side
+        const approvedComments = commentsSnap.docs
+          .map((d) => ({ id: d.id, ...d.data() }))
+          .sort((a, b) => {
+            const at = a.createdAt?.toMillis?.() ?? new Date(a.createdAt ?? 0).getTime();
+            const bt = b.createdAt?.toMillis?.() ?? new Date(b.createdAt ?? 0).getTime();
+            return at - bt;
+          });
+        setComments(approvedComments);
       } catch (err) {
         console.error("Failed to load blog:", err);
       } finally {
@@ -87,16 +106,30 @@ const BlogDetailPage = () => {
     setIsSubmittingComment(true);
     setCommentStatus(null);
     try {
-      await submitToWeb3Forms({
-        subject: `New Blog Comment on "${blog?.title || slug}"`,
-        type: "blog-comment",
-        from_name: commentForm.name,
-        name: commentForm.name,
-        email: commentForm.email,
-        message: commentForm.comment,
+      // 1 — Save to Firestore (awaits approval before going public)
+      await addDoc(collection(db, "blogs", slug, "comments"), {
+        name:      commentForm.name,
+        email:     commentForm.email,
+        comment:   commentForm.comment,
+        blogSlug:  slug,
+        blogTitle: blog?.title || slug,
+        approved:  false,
+        createdAt: serverTimestamp(),
       });
-      setCommentStatus({ type: "success", text: "Comment sent! It will be reviewed shortly." });
+
+      // Firestore save succeeded — show success immediately
+      setCommentStatus({ type: "success", text: "Thank you! Your comment is awaiting moderation." });
       setCommentForm({ name: "", email: "", comment: "" });
+
+      // 2 — Fire-and-forget email notification (failure won't affect the user)
+      submitToWeb3Forms({
+        subject:   `New Blog Comment on "${blog?.title || slug}"`,
+        type:      "blog-comment",
+        from_name: commentForm.name,
+        name:      commentForm.name,
+        email:     commentForm.email,
+        message:   commentForm.comment,
+      }).catch(() => {/* email notification failed silently */});
     } catch (err) {
       setCommentStatus({ type: "error", text: err.message || "Something went wrong. Please try again." });
     } finally {
@@ -168,7 +201,7 @@ const BlogDetailPage = () => {
               </span>
               <span>· By {blog.author}</span>
               <span>· {blog.date}</span>
-              <span>· Comments ({blog.comments ?? 0})</span>
+              <span>· {comments.length} Comment{comments.length !== 1 ? "s" : ""}</span>
             </div>
 
             {/* Excerpt */}
@@ -234,6 +267,39 @@ const BlogDetailPage = () => {
                     </div>
                   ))}
                 </div>
+              </div>
+            )}
+
+            {/* Comments list */}
+            {comments.length > 0 && (
+              <div className="mb-10">
+                <h3 className="text-gray-900 font-bold text-base mb-5">
+                  {comments.length} Comment{comments.length !== 1 ? "s" : ""}
+                </h3>
+                <div className="flex flex-col gap-5">
+                  {comments.map((c) => (
+                    <div key={c.id} className="flex gap-3">
+                      {/* Avatar */}
+                      <div className="shrink-0 w-9 h-9 rounded-full bg-orange-100 flex items-center justify-center font-bold text-orange-600 text-sm uppercase">
+                        {(c.name || "?")[0]}
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="font-semibold text-gray-800 text-sm">{c.name}</span>
+                          {c.createdAt && (
+                            <span className="text-gray-400 text-xs">
+                              {c.createdAt.toDate
+                                ? c.createdAt.toDate().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })
+                                : new Date(c.createdAt).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-gray-600 text-sm leading-relaxed">{c.comment}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="border-t border-gray-100 mt-8" />
               </div>
             )}
 

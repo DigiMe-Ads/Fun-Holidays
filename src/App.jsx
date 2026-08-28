@@ -13,6 +13,7 @@ import AdminDashboard from "./admin/pages/AdminDashboard";
 import EnquiriesManager from "./admin/pages/EnquiriesManager";
 import ToursManager from "./admin/pages/ToursManager";
 import BlogManager from "./admin/pages/BlogManager";
+import BlogComments from "./admin/pages/BlogComments";
 import DestinationsManager from "./admin/pages/DestinationsManager";
 import TeamManager from "./admin/pages/TeamManager";
 import SeedData from "./admin/pages/SeedData";
@@ -74,7 +75,8 @@ function App() {
             <Route path="dashboard"    element={<AdminDashboard />} />
             <Route path="enquiries"    element={<EnquiriesManager />} />
             <Route path="tours"        element={<ToursManager />} />
-            <Route path="blog"         element={<BlogManager />} />
+            <Route path="blog"          element={<BlogManager />} />
+            <Route path="blog-comments" element={<BlogComments />} />
             <Route path="destinations" element={<DestinationsManager />} />
             <Route path="team"         element={<TeamManager />} />
             <Route path="heatmap"      element={<HeatmapView />} />

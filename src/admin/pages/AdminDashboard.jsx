@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { db } from "../../firebase/config";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, collectionGroup, getDocs } from "firebase/firestore";
 import { Link } from "react-router-dom";
 
 function StatCard({ label, value, icon, color, to }) {
@@ -39,22 +39,24 @@ const STATUS_BADGE = {
 };
 
 export default function AdminDashboard() {
-  const [stats, setStats] = useState({ tours: 0, blogs: 0, destinations: 0, enquiries: 0, newEnquiries: 0 });
+  const [stats, setStats] = useState({ tours: 0, blogs: 0, destinations: 0, enquiries: 0, newEnquiries: 0, pendingComments: 0 });
   const [recent, setRecent] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function load() {
       try {
-        const [toursSnap, blogsSnap, destsSnap, enquiriesSnap] = await Promise.all([
+        const [toursSnap, blogsSnap, destsSnap, enquiriesSnap, commentsSnap] = await Promise.all([
           getDocs(collection(db, "tours")),
           getDocs(collection(db, "blogs")),
           getDocs(collection(db, "destinations")),
           getDocs(collection(db, "enquiries")),
+          getDocs(collectionGroup(db, "comments")),
         ]);
 
         const enquiries = enquiriesSnap.docs.map((d) => ({ id: d.id, ...d.data() }));
         const newCount = enquiries.filter((e) => e.status === "new").length;
+        const pendingComments = commentsSnap.docs.filter((d) => !d.data().approved).length;
         const sorted = enquiries.sort((a, b) => {
           const at = a.createdAt?.toMillis?.() ?? new Date(a.createdAt ?? 0).getTime();
           const bt = b.createdAt?.toMillis?.() ?? new Date(b.createdAt ?? 0).getTime();
@@ -67,6 +69,7 @@ export default function AdminDashboard() {
           destinations: destsSnap.size,
           enquiries: enquiriesSnap.size,
           newEnquiries: newCount,
+          pendingComments,
         });
         setRecent(sorted.slice(0, 6));
       } catch (err) {
@@ -95,7 +98,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Stat cards */}
-      <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 mb-10">
+      <div className="grid grid-cols-2 xl:grid-cols-5 gap-4 mb-10">
         <StatCard label="Tour Packages" value={stats.tours} icon="🗺️" color="bg-orange-50" to="/admin/tours" />
         <StatCard label="Blog Posts"    value={stats.blogs}  icon="✍️"  color="bg-blue-50"   to="/admin/blog" />
         <StatCard label="Destinations"  value={stats.destinations} icon="🌴" color="bg-green-50" to="/admin/destinations" />
@@ -105,6 +108,13 @@ export default function AdminDashboard() {
           icon="📬"
           color={stats.newEnquiries > 0 ? "bg-yellow-50" : "bg-gray-50"}
           to="/admin/enquiries"
+        />
+        <StatCard
+          label={stats.pendingComments > 0 ? `Comments (${stats.pendingComments} pending)` : "Comments"}
+          value={stats.pendingComments}
+          icon="💬"
+          color={stats.pendingComments > 0 ? "bg-orange-50" : "bg-gray-50"}
+          to="/admin/blog-comments"
         />
       </div>
 
